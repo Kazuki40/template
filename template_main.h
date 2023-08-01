@@ -7,50 +7,55 @@
 #include <ostream>
 #include <fstream>
 #include <sstream>
-#include<cmath>
+#include <cmath>
 #include <numeric>
-#include<algorithm>
+#include <algorithm>
 
-//マクロ
+// マクロ
 
-//デバック用
+// デバック用
 #define debug(x) std::cerr << "\033[33m(line:" << __LINE__ << ") " << #x << ": " << x << "\033[m" << std::endl;
 
-//型定義
+// 型定義
 #define ULLI unsigned long long int
 #define LLD long double
 
-//ループ
+// ループ
 #define rep(i, n) for (i = 0; i < n; i++)
 
-//2次元配列の定義
+// 2次元配列の定義
 #define v2_T(T) std::vector<v_T(T)>
-//1次元配列の定義
+// 1次元配列の定義
 #define v_T(T) std::vector<T>
 
-//全て選択
+// 全て選択
 #define v_all(v) (v).begin(), (v).end()
 
-//π(C++20 が使える時は numbers から取得する方がいいい）
-#define PI std::acos(-1) 
+// π(C++20 が使える時は numbers から取得する方がいいい）
+#define PI std::acos(-1)
 
-//文字列の分割
-std::vector<std::string> split(std::string str, char sep) {
+// 関数
+
+// 文字列の分割
+std::vector<std::string> split(std::string str, char sep)
+{
 	ULLI first = 0;
 	ULLI last = str.find_first_of(sep); // 最初に現れたデリミタの位置を取得
 
 	std::vector<std::string> result;
 
-	while (first < str.size()) {
-		std::string subStr(str, first, last - first);//前から数えて文字の場所まで取り出す
+	while (first < str.size())
+	{
+		std::string subStr(str, first, last - first); // 前から数えて文字の場所まで取り出す
 
-		result.push_back(subStr);//書き込み
+		result.push_back(subStr); // 書き込み
 
-		first = last + 1;//　対象の文字から１文字ずらす
-		last = str.find_first_of(sep, first);// 次のデリミタまでの長さを取得
+		first = last + 1;					  // 対象の文字から１文字ずらす
+		last = str.find_first_of(sep, first); // 次のデリミタまでの長さを取得
 
-		//もし見つからなければ，最後にする
-		if (last == std::string::npos) {
+		// もし見つからなければ，最後にする
+		if (last == std::string::npos)
+		{
 			last = str.size();
 		}
 	}
@@ -58,18 +63,20 @@ std::vector<std::string> split(std::string str, char sep) {
 	return result;
 }
 
-
-//ファイル読み込み用
-template <typename Fn>void read_csv_line(std::string filename, char sep, Fn lamde_func) {
+// ファイル読み込み用
+template <typename Fn>
+void read_csv_line(std::string filename, char sep, Fn lamde_func)
+{
 
 	std::ifstream read_csv(filename, std::ios::in);
 	std::string temp_line;
 	std::vector<std::string> temp_cell;
 
-	//データの１行
-	while (getline(read_csv, temp_line)) {
+	// データの１行
+	while (getline(read_csv, temp_line))
+	{
 
-		//分割
+		// 分割
 		temp_cell = split(temp_line, sep);
 
 		/*
@@ -84,17 +91,14 @@ template <typename Fn>void read_csv_line(std::string filename, char sep, Fn lamd
 		() 即時実行
 		*/
 
-		//関数の実行
+		// 関数の実行
 		lamde_func(temp_cell);
-
 	}
 
 	return;
 }
 
-
-
-//行列を作成するクラス（標準のみ）
+// 行列を作成するクラス（標準のみ）
 template <typename T>
 class make_matrix
 {
@@ -106,30 +110,41 @@ private:
 	ULLI data_row;
 
 public:
-	v2_T(T) diag(T data_num = 1);//単位行列関数
-	v2_T(T) matrix0(T row = 1, T col = 1);//0の行列関数
+	make_matrix();
+	v2_T(T) getter_diag(T data_num = 1);		  // 単位行列関数
+	v2_T(T) getter_matrix0(T row = 1, T col = 1); // 0の行列関数
 };
 
-//単位行列の作成
 template <typename T>
-v2_T(T) make_matrix<T>::diag(T data_num)
+make_matrix<T>::make_matrix()
 {
-	v2_T(T) ans = make_matrix(data_num, data_num);//定義
-	rep(loop_i, data_num) ans[loop_i][loop_i] = 1;//対角成分を1にする
+	this->loop_i = 0;
+	this->temp_line = "";
+	this->temp_cell = "";
+	this->data_col = 0;
+	this->data_row = 0;
+};
+
+// 単位行列の作成
+template <typename T>
+v2_T(T) make_matrix<T>::getter_diag(T data_num)
+{
+	v2_T(T) ans = make_matrix(data_num, data_num); // 定義
+	rep(loop_i, data_num) ans[loop_i][loop_i] = 1; // 対角成分を1にする
 
 	return ans;
 };
 
-//全てが0の行列を作成
+// 全てが0の行列を作成
 template <typename T>
-v2_T(T) make_matrix<T>::matrix0(T row, T col)
+v2_T(T) make_matrix<T>::getter_matrix0(T row, T col)
 {
-	v2_T(T) ans(row, std::vector<T>(col, 0));//定義
+	v2_T(T) ans(row, std::vector<T>(col, 0)); // 定義
 
 	return ans;
 };
 
-//csvファイルを読み込むクラス
+// csvファイルを読み込むクラス
 class read_csv
 {
 private:
@@ -139,148 +154,170 @@ private:
 
 public:
 	read_csv();
-	~read_csv();
+
+	void setter(std::string file = "a.csv", bool header = true, char sep = ',', short row_name = 0);
+	std::unordered_map<std::string, ULLI> getter_hearder_name();
+	std::unordered_map<std::string, ULLI> getter_row_name();
+	v2_T(std::string) getter_data_matrix();
+
+protected:
 	std::unordered_map<std::string, ULLI> hearder_name;
 	std::unordered_map<std::string, ULLI> row_name;
 	v2_T(std::string) data_matrix;
-	void function(std::string file = "a.csv", bool header = true, char  sep = ',', short row_name = 0);
+	void function(std::string &, bool &, char &, short &);
 };
 
-read_csv::read_csv() {
-
+read_csv::read_csv()
+{
 	this->temp_cell_num = 0;
 	this->temp_line = "";
 	this->temp_cell = "";
 	this->the_first_line = false;
 }
 
-read_csv::~read_csv() {
-
-	std::cout << "削除" << std::endl;
-
-}
-void read_csv::function(std::string file, bool header, char sep, short row_name_num)
+void read_csv::setter(std::string file, bool header, char sep, short row_name_num)
 {
-	//ファイルを開く
+	this->function(file, header, sep, row_name_num);
+	return;
+}
+
+// ゲッター
+std::unordered_map<std::string, ULLI> read_csv::getter_hearder_name()
+{
+	return this->hearder_name;
+}
+
+std::unordered_map<std::string, ULLI> read_csv::getter_row_name()
+{
+	return this->row_name;
+}
+
+v2_T(std::string) read_csv::getter_data_matrix()
+{
+	return this->data_matrix;
+}
+
+void read_csv::function(std::string &file, bool &header, char &sep, short &row_name_num)
+{
+	// ファイルを開く
 	std::ifstream read_csv_file(file, std::ios::in);
 
-	//エラーの時の処理
-	if (!read_csv_file.is_open()) {
+	// エラーの時の処理
+	if (!read_csv_file.is_open())
+	{
 		std::cout << "Failed to open the csv file. Please check the file name and try again.\n";
 		return;
 	}
 
-	//１行目の処理
+	// １行目の処理
 	this->the_first_line = true;
 
-	//ループ
-	while (getline(read_csv_file, temp_line))
+	// ループ
+	while (getline(read_csv_file, this->temp_line))
 	{
-		//変数定義
-		//格納するデータ
+		// 変数定義
+		// 格納するデータ
 		v_T(std::string) temp_data;
 
-		//文字列を分割する
-		std::stringstream split(temp_line);
+		// 文字列を分割する
+		std::stringstream split(this->temp_line);
 
-		//0列目の処理
-		temp_cell_num = 0;
+		// 0列目の処理
+		this->temp_cell_num = 0;
 
-		//列の処理
-		while (getline(split, temp_cell, sep))
+		// 列の処理
+		while (getline(split, this->temp_cell, sep))
 		{
 			// 不要な記号を削除
-			if (temp_cell.at(0) == '\"')
+			if (this->temp_cell.at(0) == '\"')
 			{
-				temp_cell.pop_back();//最後の1文字を削除
-				temp_cell.erase(temp_cell.begin());//1文字目を削除
+				this->temp_cell.pop_back();						// 最後の1文字を削除
+				this->temp_cell.erase(this->temp_cell.begin()); // 1文字目を削除
 			}
 
-			//1行目の時の処理
+			// 1行目の時の処理
 			if ((the_first_line == true) && (header == true))
 			{
-				//ヘッダーの名前と番号を格納
-				hearder_name.emplace(temp_cell, temp_cell_num);
+				// ヘッダーの名前と番号を格納
+				this->hearder_name.emplace(temp_cell, temp_cell_num);
 			}
 			else
 			{
-				//1列目が名前の時かつ今１列目の時の処理
+				// 1列目が名前の時かつ今１列目の時の処理
 				if ((row_name_num == 1) && (temp_cell_num == 0))
 				{
-					//1列目が名前の時の処理
+					// 1列目が名前の時の処理
 					row_name.emplace(temp_cell, row_name.size());
 				}
 				else
 				{
-					//データを導入
+					// データを導入
 					temp_data.push_back(temp_cell);
 				}
 			}
 
-			//列番号を増やす
+			// 列番号を増やす
 			temp_cell_num++;
 		}
 
-		//ヘッダーがある
+		// ヘッダーがある
 
-		if (!((header == true) && (the_first_line == true))) {
-			//データを格納
-			data_matrix.push_back(temp_data);
-
+		if (!((header == true) && (the_first_line == true)))
+		{
+			// データを格納
+			this->data_matrix.push_back(temp_data);
 		}
 
 		the_first_line = false;
-
 	}
 	return;
 };
 
-//csvファイルを書き込む関数
-//オーバーロード
-//データのみ
+// csvファイルを書き込む関数
+// オーバーロード
+// データのみ
 template <typename T>
 void write_csv(v2_T(T) data, std::string filename = "a.csv", std::ios_base::openmode mode = std::ios::out, char sep = ',')
 {
-	//ファイル出力
+	// ファイル出力
 	std::ofstream write(filename, mode);
-	ULLI row, col;//仮変数
+	ULLI row, col; // 仮変数
 
-	//ループ
+	// ループ
 	rep(row, data.size())
 	{
-		//ループ
+		// ループ
 		rep(col, ((data.size()) - 1))
 		{
-			//書き込み
+			// 書き込み
 			write << data[row][col] << sep;
 		}
-		//最後の列の処理
+		// 最後の列の処理
 		write << data[row][((data.size()) - 1)] << std::endl;
 	}
 
 	return;
-
 }
 
-//ヘッダーとデータ
+// ヘッダーとデータ
 template <typename T, typename U>
 void write_csv(v2_T(T) data, std::unordered_map<std::string, ULLI> hearder_name, std::string filename = "a.csv", std::ios_base::openmode mode = std::ios::out, char sep = ',')
 {
-	//ヘッダーの名前を格納するイテレータ
+	// ヘッダーの名前を格納するイテレータ
 	std::unordered_map<std::string, ULLI>::iterator hearder_iter;
 	hearder_iter = hearder_name.begin();
 
-	//ファイル
+	// ファイル
 	std::ofstream write(filename, mode);
 	ULLI now_cell_num = 0;
 
-	//ヘッダーの名前を書き込む
+	// ヘッダーの名前を書き込む
 	while (hearder_iter != hearder_name.end())
 	{
-		//書き込み
+		// 書き込み
 		write << hearder_iter->first;
 
-		//最後の列の処理など
+		// 最後の列の処理など
 		if (now_cell_num == (hearder_name.size() - 1))
 		{
 			write << std::endl;
@@ -289,41 +326,41 @@ void write_csv(v2_T(T) data, std::unordered_map<std::string, ULLI> hearder_name,
 		{
 			write << sep;
 		}
-		//値を更新
+		// 値を更新
 		now_cell_num++;
 		hearder_iter++;
 	}
 
-	//以降は同じ
+	// 以降は同じ
 	write_csv(data, filename, std::ios::ate, sep);
 
 	return;
 }
 
-//データと行名の時
+// データと行名の時
 template <typename T>
 void write_csv(v2_T(T) data, std::unordered_map<std::string, ULLI> row_name, std::string filename = "a.csv", std::ios_base::openmode mode = std::ios::out, char sep = ',')
 {
-	//イテレータ
+	// イテレータ
 	std::unordered_map<std::string, ULLI>::iterator row_name_iter;
 	row_name_iter = row_name.begin();
 
-	//出力ファイルの定義
+	// 出力ファイルの定義
 	std::ofstream write(filename, mode);
 	ULLI row, col;
 
 	rep(row, data.size())
 	{
-		//１列目がrow_nameの時の処理
+		// １列目がrow_nameの時の処理
 		write << row_name_iter->first << sep;
 
-		//データの書き込み
+		// データの書き込み
 		rep(col, ((data.size()) - 1))
 		{
-			//出力
+			// 出力
 			write << data[row][col] << sep;
 		}
-		//最後の列の処理
+		// 最後の列の処理
 		write << data[row][((data.size()) - 1)] << std::endl;
 		row_name_iter++;
 	}
@@ -331,26 +368,25 @@ void write_csv(v2_T(T) data, std::unordered_map<std::string, ULLI> row_name, std
 	return;
 }
 
-//ヘッダー，行名，データがあるとき
+// ヘッダー，行名，データがあるとき
 template <typename T>
 void write_csv(v2_T(T) data, std::unordered_map<std::string, ULLI> hearder_name, std::unordered_map<std::string, ULLI> row_name, std::string filename = "a.csv", std::ios_base::openmode mode = std::ios::out, char sep = ',')
 {
-	//ヘッダーの名前を格納するイテレータ
+	// ヘッダーの名前を格納するイテレータ
 	std::unordered_map<std::string, ULLI>::iterator hearder_iter;
 	hearder_iter = hearder_name.begin();
 
-	//出力ファイルの定義
+	// 出力ファイルの定義
 	std::ofstream write(filename, mode);
 	ULLI now_cell_num = 0;
 
-	//ヘッダーの書き込み
+	// ヘッダーの書き込み
 	while (hearder_iter != hearder_name.end())
 	{
-		//書き込み
+		// 書き込み
 		write << hearder_iter->first;
 
-
-		//文字の判定
+		// 文字の判定
 		if (now_cell_num == (hearder_name.size() - 1))
 		{
 			write << std::endl;
@@ -359,41 +395,44 @@ void write_csv(v2_T(T) data, std::unordered_map<std::string, ULLI> hearder_name,
 		{
 			write << sep;
 		}
-		//更新
+		// 更新
 		now_cell_num++;
 		hearder_iter++;
 	}
 
-	//ヘッダーは書いたのでそれ以外の処理
+	// ヘッダーは書いたのでそれ以外の処理
 	write_csv(data, row_name, filename, std::ios::ate, sep);
 
 	return;
 }
 
-//マップの時
-template <typename T, typename U> void write_csv(std::unordered_map<T, U>& ans_map, std::string filename = "a.csv", std::ios_base::openmode mode = std::ios::out, char sep = ',') {
+// マップの時
+template <typename T, typename U>
+void write_csv(std::unordered_map<T, U> &ans_map, std::string filename = "a.csv", std::ios_base::openmode mode = std::ios::out, char sep = ',')
+{
 
-	//ファイル出力
+	// ファイル出力
 	std::ofstream write(filename, mode);
 	typename std::unordered_map<T, U>::iterator map_iter;
 	map_iter = ans_map.begin();
 
 	while (map_iter != ans_map.end())
 	{
-		//出力
+		// 出力
 		write << map_iter->first << sep << map_iter->second << std::endl;
 
-		//更新
+		// 更新
 		map_iter++;
 	}
 
 	return;
-
 }
 
-template <typename T, typename U> void write_csv(std::unordered_map<T, std::vector<U>> ans_map, std::string filename = "a.csv", std::ios_base::openmode mode = std::ios::out, char sep = ',') {
+template <typename T, typename U>
+void write_csv(std::unordered_map<T, std::vector<U>> ans_map, std::string filename = "a.csv", std::ios_base::openmode mode = std::ios::out, char sep = ',')
+{
 
-	//ファイル出力
+	// ファイル出力
 	std::ofstream write(filename, mode);
 
 	typename std::unordered_map<T, std::vector<U>>::iterator map_iter;
@@ -403,35 +442,33 @@ template <typename T, typename U> void write_csv(std::unordered_map<T, std::vect
 
 	while (map_iter != ans_map.end())
 	{
-		//debug(map_iter->first)
-		//出力
+		// debug(map_iter->first)
+		// 出力
 		vec_iter = map_iter->second.begin();
 
 		write << map_iter->first;
 
 		while (vec_iter != map_iter->second.end())
 		{
-			//出力
+			// 出力
 			write << sep << *vec_iter;
 
-
-			//更新
+			// 更新
 			vec_iter++;
 		}
 
 		write << std::endl;
-		//更新
+		// 更新
 		map_iter++;
 	}
 
 	return;
-
 }
 
-//曜日の計算（ツェラーの公式）
+// 曜日の計算（ツェラーの公式）
 int day_of_the_week(int year = 0000, int month = 1, int day = 1)
 {
-	//1月と2月は前年の13月と14月として計算する
+	// 1月と2月は前年の13月と14月として計算する
 	if (month == 1 || month == 2)
 	{
 		year--;
@@ -440,7 +477,7 @@ int day_of_the_week(int year = 0000, int month = 1, int day = 1)
 	return (year + year / 4 - year / 100 + year / 400 + (13 * month + 8) / 5 + day) % 7;
 }
 
-//うるう年判定
+// うるう年判定
 bool is_leap_year(int year)
 {
 	if (year % 400 == 0)
@@ -461,71 +498,81 @@ bool is_leap_year(int year)
 	}
 }
 
+// yyyy/mm/ddのA日からB日まで日付をマップとして返す
+// A日からB日までの経過日数を計算する
+std::unordered_map<std::string, ULLI> day_map_age(int start_year, int start_month, int start_day, int end_year, int end_month, int end_day, char sep = '/')
+{
 
-//yyyy/mm/ddのA日からB日まで日付をマップとして返す
-//A日からB日までの経過日数を計算する
-std::unordered_map<std::string, ULLI> day_map_age(int start_year, int start_month, int start_day, int end_year, int end_month, int end_day, char sep = '/') {
-
-	//答えの定義
+	// 答えの定義
 	std::unordered_map<std::string, ULLI> day_map;
 
 	int now_year, now_month, now_day, long_days;
 	long_days = 0;
 
-	//年のループ
-	for (now_year = start_year; now_year <= end_year; ++now_year) {
+	// 年のループ
+	for (now_year = start_year; now_year <= end_year; ++now_year)
+	{
 
-		//終了する曜日の定義
+		// 終了する曜日の定義
 		int month_limit;
-		if (now_year < end_year) {
+		if (now_year < end_year)
+		{
 
 			// 基本的には年末まで
 			month_limit = 12;
 		}
-		else {
+		else
+		{
 
-			//最終年のみ月が終わる日が異なる
+			// 最終年のみ月が終わる日が異なる
 			month_limit = end_month;
 		}
 
 		// 月のループ
-		for (now_month = 1; now_month <= month_limit; ++now_month) {
+		for (now_month = 1; now_month <= month_limit; ++now_month)
+		{
 
-			//最終の日付の判定
+			// 最終の日付の判定
 			int day_limit;
-			if (now_year < end_year || now_month < end_month) {
+			if (now_year < end_year || now_month < end_month)
+			{
 
-				//最終日の判定
-				//うるう年判定
-				if (now_month == 2) {
+				// 最終日の判定
+				// うるう年判定
+				if (now_month == 2)
+				{
 
-					//うるう年判定は上の式
-					if (is_leap_year(now_year)) {
+					// うるう年判定は上の式
+					if (is_leap_year(now_year))
+					{
 						day_limit = 29;
 					}
-					else {
+					else
+					{
 						day_limit = 28;
 					}
 				}
-				//30日の月のみ抽出
-				else if (now_month == 4 || now_month == 6 || now_month == 9 || now_month == 11) {
+				// 30日の月のみ抽出
+				else if (now_month == 4 || now_month == 6 || now_month == 9 || now_month == 11)
+				{
 					day_limit = 30;
 				}
-				else {
+				else
+				{
 					day_limit = 31;
 				}
 			}
-			else {
-				//最終年かつ最終日のみ異なる
+			else
+			{
+				// 最終年かつ最終日のみ異なる
 				day_limit = end_day;
 			}
 
 			// 日付のループ
-			for (now_day = 1; now_day <= day_limit; ++now_day) {
+			for (now_day = 1; now_day <= day_limit; ++now_day)
+			{
 				// create the date string in format yyyy/mm/dd
-				std::string date = std::to_string(now_year) + sep
-					+ std::to_string(now_month) + sep
-					+ std::to_string(now_day);
+				std::string date = std::to_string(now_year) + sep + std::to_string(now_month) + sep + std::to_string(now_day);
 				// increment long_days and add to map
 				day_map[date] = long_days;
 				++long_days;
@@ -533,20 +580,21 @@ std::unordered_map<std::string, ULLI> day_map_age(int start_year, int start_mont
 		}
 	}
 
-	//答えを返す
+	// 答えを返す
 	return day_map;
 }
 
 //(T) year, (T) month, (T) dayを yyyy/mm/dd の形式に変換する
-template <typename T> std::string T_to_date_trans_func(T& year, T& month, T& day, char sep = '/') {
+template <typename T>
+std::string T_to_date_trans_func(T &year, T &month, T &day, char sep = '/')
+{
 	std::string ans;
 	ans = std::to_string(year) + sep + std::to_string(month) + sep + std::to_string(day);
 
 	return ans;
 }
 
-
-//yyyy/mm/dd の形式を (int) year, (int) month, (int) day に変換する
+// yyyy/mm/dd の形式を (int) year, (int) month, (int) day に変換する
 class date_to_int
 {
 public:
@@ -555,7 +603,6 @@ public:
 	int month;
 	int day;
 	void function(std::string, char sep = '/');
-
 };
 
 date_to_int::date_to_int()
@@ -565,11 +612,12 @@ date_to_int::date_to_int()
 	this->day = 0;
 }
 
-void date_to_int::function(std::string date_s, char sep) {
-	//日付の分割
+void date_to_int::function(std::string date_s, char sep)
+{
+	// 日付の分割
 	std::vector<std::string> date_split = split(date_s, '/');
 
-	//日付の変換
+	// 日付の変換
 	year = std::stoi(date_split[0]);
 	month = std::stoi(date_split[1]);
 	day = std::stoi(date_split[2]);
@@ -577,34 +625,39 @@ void date_to_int::function(std::string date_s, char sep) {
 	return;
 }
 
-//スワップ
+// スワップ
 template <typename T>
-void swap(T& a, T& b) { //返り値がないからポインターなどでする必要がある
-	//一時変数
+void swap(T &a, T &b)
+{ // 返り値がないからポインターなどでする必要がある
+	// 一時変数
 	T temp = a;
 
-	//入れ替え
+	// 入れ替え
 	a = b;
 	b = temp;
 	return;
 }
 
-//小さいデータの比較
-template<typename T>bool data_comparison(T& data_x, T& data_y) {
+// 小さいデータの比較
+template <typename T>
+bool data_comparison(T &data_x, T &data_y)
+{
 
-	//計算機イプシロンの定義
+	// 計算機イプシロンの定義
 	LLD data_eps = std::numeric_limits<T>::epsilon();
 
-	//2つのデータの差がeps以下ならばtrueを返す
-	if (std::abs(data_x - data_y) < data_eps) {
+	// 2つのデータの差がeps以下ならばtrueを返す
+	if (std::abs(data_x - data_y) < data_eps)
+	{
 		return true;
 	}
-	else {
+	else
+	{
 		return false;
 	}
 }
 
-//データの基本統計量を算出
+// データの基本統計量を算出
 template <typename T>
 class data_statistics
 {
@@ -614,48 +667,78 @@ private:
 	std::unordered_map<T, ULLI> data_map;
 
 public:
-	data_statistics(v_T(T)& data);
+	data_statistics();
+	void setter(v_T(T) & data);
+	LLD get_max();
+	LLD get_min();
+	LLD get_mean();
+	LLD get_median();
+	LLD get_mode();
+	LLD get_variance();
+	LLD get_sd();
+	LLD get_sum();
+
+protected:
 	void function(v_T(T) data);
 	LLD max_value, min_value, mean_value, median_value, mode_value, variance_value, sd_value, sum_value;
 };
 
 template <typename T>
-data_statistics<T>::data_statistics(v_T(T)& data)
+data_statistics<T>::data_statistics()
+{
+	this->max_value = 0;
+	this->min_value = 0;
+	this->mean_value = 0;
+	this->median_value = 0;
+	this->mode_value = 0;
+	this->variance_value = 0;
+	this->sd_value = 0;
+	this->sum_value = 0;
+}
+
+template <typename T>
+void data_statistics<T>::setter(v_T(T) & data)
 {
 	// コンストラクタの中身
 	function(data);
-
 };
 
 template <typename T>
-void data_statistics<T>::function(v_T(T) data) {
+void data_statistics<T>::function(v_T(T) data)
+{
 	sum_value = std::accumulate(v_all(data), (T)0);
 	max_value = std::max_element(v_all(data));
 	min_value = std::min_element(v_all(data));
-	mean_value = sum_value / data.size();
+	this->mean_value = sum_value / data.size();
 
-	//分散の計算
-	// 最初1　最後1　最初2　初期値
-	auto variance_func1 = [mean_value](LLD acc, LLD a) {
-		return (acc + std::pow(a - mean_value, 2));
-	};
+	// 分散の計算
+	//  最初1　最後1　最初2　初期値
+auto variance_func1 = [this](LLD acc, LLD a)
+{
+    return (acc + std::pow(a - this->mean_value, 2));
+};
+
+
 	variance_value = std::accumulate(data.begin(), data.end(), 0.0, variance_func1) / data.size();
 
-	//標準偏差の計算
+	// 標準偏差の計算
 	sd_value = std::sqrt(variance_value);
 
-	//中央値
-	std::sort(data);//ソートをする
+	// 中央値
+	std::sort(data); // ソートをする
 	median_value = ((data.size() % 2 == 0) ? (data[data.size() / 2 - 1] + data[data.size() / 2]) / 2 : data[data.size() / 2]);
 
-	//最頻値
-	for (auto itr = data.begin(); itr != data.end(); ++itr) {
+	// 最頻値
+	for (auto itr = data.begin(); itr != data.end(); ++itr)
+	{
 		data_map[*itr]++;
 	}
 
 	// Find the mode by looping through the map
-	for (const auto& kv : data_map) {
-		if (kv.second > max_count) {
+	for (const auto &kv : data_map)
+	{
+		if (kv.second > max_count)
+		{
 			max_count = kv.second;
 			mode = kv.first;
 		}
@@ -664,37 +747,107 @@ void data_statistics<T>::function(v_T(T) data) {
 	return;
 };
 
+// 出力
+template <typename T>
+LLD data_statistics<T>::get_max()
+{
+	return max_value;
+};
+template <typename T>
+LLD data_statistics<T>::get_min()
+{
+	return min_value;
+};
+template <typename T>
+LLD data_statistics<T>::get_mean()
+{
+	return mean_value;
+};
+template <typename T>
+LLD data_statistics<T>::get_median()
+{
+	return median_value;
+};
+template <typename T>
+LLD data_statistics<T>::get_mode()
+{
+	return mode_value;
+};
+template <typename T>
+LLD data_statistics<T>::get_variance()
+{
+	return variance_value;
+};
+template <typename T>
+LLD data_statistics<T>::get_sd()
+{
+	return sd_value;
+};
+template <typename T>
+LLD data_statistics<T>::get_sum()
+{
+	return sum_value;
+};
 
-//データの基本統計量を算出（行列用）
-template <typename T>class  data_statistics_vector :protected data_statistics<std::vector<T>> {
+// データの基本統計量を算出（行列用）
+template <typename T>
+class data_statistics_vector : protected data_statistics<std::vector<T>>
+{
 
 private:
-	ULLI  now_temp, now_col;
+	ULLI now_temp, now_col;
 	v_T(T) now_data;
+
 public:
-	data_statistics_vector(v2_T(T) datas);
+	void setter(v2_T(T) datas);
+	v_T(LLD) get_max();
+	v_T(LLD) get_min();
+	v_T(LLD) get_mean();
+	v_T(LLD) get_median();
+	v_T(LLD) get_mode();
+	v_T(LLD) get_variance();
+	v_T(LLD) get_sd();
+	v_T(LLD) get_sum();
+
+protected:
+	data_statistics_vector();
 	v_T(LLD) max_vector, min_vector, mean_vector, median_vector, mode_vector, variance_vector, sd_vector, sum_vector;
 };
 
+template <typename T>
+data_statistics_vector<T>::data_statistics_vector() : data_statistics<std::vector<T>>()
+{
+this->now_temp=0;
+ this->now_col=0;
+	this->max_vector = {};
+	this->min_vector = {};
+	this->mean_vector = {};
+	this->median_vector = {};
+	this->mode_vector = {};
+	this->variance_vector = {};
+	this->sd_vector = {};
+	this->sum_vector = {};
+}
 
+template <typename T> void data_statistics_vector<T>::setter(v2_T(T) datas)
+{
 
-template<typename T>data_statistics_vector<T>::data_statistics_vector(v2_T(T) datas) :data_statistics(datas) {
+	// 列数を取得
 
-	//列数を取得
-
-	rep(now_temp, datas[0].size()) {
+	rep(now_temp, datas[0].size())
+	{
 		now_data.resize(datas.size());
 
-		//分析データのみ取得　列固定
-		rep(now_col, datas.size()) {
+		// 分析データのみ取得　列固定
+		rep(now_col, datas.size())
+		{
 			now_data[now_col] = datas[now_col][now_temp];
-
 		}
 
-		//データの基本統計量を算出
+		// データの基本統計量を算出
 		data_statistics<T>::function(now_data);
 
-		//答えを格納
+		// 答えを格納
 		max_vector.push_back(data_statistics<T>::max_value);
 		min_vector.push_back(data_statistics<T>::min_value);
 		mean_vector.push_back(data_statistics<T>::mean_value);
@@ -708,56 +861,91 @@ template<typename T>data_statistics_vector<T>::data_statistics_vector(v2_T(T) da
 	return;
 }
 
-//テキストファイルにカンマを入れる
-void text_comma(std::string filename = "a.txt", std::string byte_file = "byte.csv", std::string output_file = "a.csv") {
+// 出力
+template <typename T> v_T(LLD) data_statistics_vector<T>::get_max()
+{
+	return max_vector;
+};
+template <typename T> v_T(LLD) data_statistics_vector<T>::get_min()
+{
+	return min_vector;
+};
+template <typename T> v_T(LLD) data_statistics_vector<T>::get_mean()
+{
+	return mean_vector;
+};
+template <typename T> v_T(LLD) data_statistics_vector<T>::get_median()
+{
+	return median_vector;
+};
+template <typename T> v_T(LLD) data_statistics_vector<T>::get_mode()
+{
+	return mode_vector;
+};
+template <typename T> v_T(LLD) data_statistics_vector<T>::get_variance()
+{
+	return variance_vector;
+};
+template <typename T> v_T(LLD) data_statistics_vector<T>::get_sd()
+{
+	return sd_vector;
+};
+template <typename T> v_T(LLD) data_statistics_vector<T>::get_sum()
+{
+	return sum_vector;
+};
 
+
+// テキストファイルにカンマを入れる
+void text_comma(std::string filename = "a.txt", std::string byte_file = "byte.csv", std::string output_file = "a.csv")
+{
 	std::cout << "byteなどが書かれたcsv は，　項目,文字数, バイト数　で記入して\n";
 	v2_T(std::string) byte_data;
 
-	//csv読み込む用
+	// csv読み込む用
 	class read_csv read_csv1;
-	read_csv1.function(byte_file, true, ',', 1);
+	read_csv1.setter(byte_file, true, ',', 1);
 
-	//テキストファイルを読み込み
+	// テキストファイルを読み込み
 	std::ifstream read_txt(filename, std::ios::in);
 
-
-	if (!read_txt.is_open()) {
+	if (!read_txt.is_open())
+	{
 		std::cout << "Failed to open the text file. Please check the file name and try again.\n";
 		return;
 	}
 
-	//出力ファイルの定義
+	// 出力ファイルの定義
 	std::ofstream write_csv(output_file, std::ios::out);
 
-	//仮変数
+	// 仮変数
 	std::string temp_line;
 	std::string temp_ans;
 	ULLI csv_length;
+	std::vector<std::vector<std::string>> data = read_csv1.getter_data_matrix();
 
-	while (getline(read_txt, temp_line)) {
+	while (getline(read_txt, temp_line))
+	{
 
 		temp_ans = "";
-		rep(csv_length, read_csv1.data_matrix.size())
+		rep(csv_length, data.size())
 		{
-			//文字の操作
-			//substr　（開始位置-1（0スタート），文字数）
-			temp_ans += temp_line.substr(std::stoull(read_csv1.data_matrix[csv_length][0]) - 1, std::stoull(read_csv1.data_matrix[csv_length][1])) + ",";
-
+			// 文字の操作
+			// substr　（開始位置-1（0スタート），文字数）
+			temp_ans += temp_line.substr(std::stoull(data[csv_length][0]) - 1, std::stoull(data[csv_length][1])) + ",";
 		}
-		//カンマが1つ多いので削除
+		// カンマが1つ多いので削除
 		temp_ans.pop_back();
 		write_csv << temp_ans << "\n";
-
 	}
 
 	return;
-
 }
 
-//日付の型をそろえる
-std::string remove_zero_form_date(std::string& date, char sep = '/') {
-	//日付の共通化
+// 日付の型をそろえる
+std::string remove_zero_form_date(std::string &date, char sep = '/')
+{
+	// 日付の共通化
 	std::vector<std::string> date_int = split(date, sep);
 	int now_y = std::stoi(date_int[0]);
 	int now_m = std::stoi(date_int[1]);
@@ -766,12 +954,15 @@ std::string remove_zero_form_date(std::string& date, char sep = '/') {
 	return now_date;
 }
 
-//二分木探索
-template<typename T, typename Fn>T binary_search_tree(T& data_a, T data_b, Fn& func) {
+// 二分木探索
+template <typename T, typename Fn>
+T binary_search_tree(T &data_a, T &data_b, Fn &func)
+{
 
 	T mean = (data_a + data_b) / 2.0;
 
-	if (data_comparison(data_a, data_b)) {
+	if (data_comparison(data_a, data_b))
+	{
 		return mean;
 	}
 
@@ -780,30 +971,69 @@ template<typename T, typename Fn>T binary_search_tree(T& data_a, T data_b, Fn& f
 	T ans_a = func(data_a);
 	T ans_b = func(data_b);
 
-	if (data_comparison(ans_a, ans_b)) {
+	if (ans_a<ans_b)
+	{
 		ans = binary_search_tree(data_a, mean, func);
 	}
-	else {
+	else
+	{
 		ans = binary_search_tree(data_b, mean, func);
-
 	}
+
+	return ans;
+}
+
+// 二分木探索(配列)
+template <typename T, typename U,typename Fn>
+U binary_search_tree(std::vector<T> &data_v,U data_a, U data_b, Fn &func)
+{
+
+U ans;
+T ans_a = func(data_a);
+T ans_b = func(data_b);
+
+if(abs(data_a-data_b)==1){
+
+ans = (ans_a<ans_b)? data_a:data_b;
+
+return ans;
+
+}
+
+
+U ans_now = (data_a + data_b) / 2;
+
+
+if(ans_a<ans_b){
+
+ans = binary_search_tree(data_v,data_a,ans_now,func);
+
+}else{
+
+ans = binary_search_tree(data_v,ans_now,data_b,func);
+
+}
 
 	return ans;
 
 }
 
 
+
 // log sum exp
-template<typename T> T log_sum_exp(std::vector<T>data) {
-	//最大値を取得
+template <typename T>
+T log_sum_exp(std::vector<T> data)
+{
+	// 最大値を取得
 	T max_value = *std::max_element(data.begin(), data.end());
 	T sum = 0;
 
-	//最大値を引いて，expをとる
-	for (T value : data) {
+	// 最大値を引いて，expをとる
+	for (T value : data)
+	{
 		sum += std::exp(value - max_value);
 	}
 
-	//logをとる
+	// logをとる
 	return max_value + std::log(sum);
 }
