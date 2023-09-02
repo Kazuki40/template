@@ -10,6 +10,14 @@
 #include <cmath>
 #include <numeric>
 #include <algorithm>
+#include <random>
+#include <numeric>
+#include <tuple>
+#include <array>
+
+// 先定義
+template <typename T>
+void swap(T &, T &);
 
 // マクロ
 
@@ -34,7 +42,94 @@
 // π(C++20 が使える時は numbers から取得する方がいいい）
 #define PI std::acos(-1)
 
+#define write_fixed(n, x) cout << std::fixed << std::setprecision(n) << x << endl // 有効数字
+
+// 行列の表示用関数
+template <typename T>
+void printMatrix(const std::vector<std::vector<T>> &matrix)
+{
+	for (const auto &row : matrix)
+	{
+		for (const auto &val : row)
+		{
+			std::cout << val << " ";
+		}
+		std::cout << std::endl;
+	}
+}
+
 // 関数
+// Σ(0からk)x
+template <typename T>
+T siguma_func_one(T k)
+{
+	return (k * (k + 1)) / 2;
+}
+// Σ(0からk)x^2
+template <typename T>
+T siguma_func_two(T k)
+{
+	return (k * (k + 1) * (2 * k + 1)) / 6;
+}
+// Σ(0からk)x^3
+template <typename T>
+T siguma_func_three(T k)
+{
+	return powl(siguma_func_one(k), 2);
+}
+
+// 積分
+// 台形法
+template <typename T, typename U, typename Fn>
+T integral_trapezoid(Fn func, U min, U max, U n)
+{
+	T pitch;
+	pitch = (max - min) / n;
+	T x = min;
+	T ans1 = func(x);
+	T ans2;
+	T ans_re = 0;
+	while (x < max)
+	{
+		x += pitch;
+		ans2 = func(x);
+		ans_re += ((ans1 / ans2) / (double)2) * pitch;
+		ans1 = ans2;
+	}
+	return ans_re;
+}
+// MC
+template <typename T, typename U, typename Fn>
+T integral_rand(Fn func, T min, T max, U n)
+{
+	T ans = 0;
+	U i;
+	std::random_device seed1;
+	std::uniform_real_distribution<> dist(min, max);
+	rep(i, n)
+	{
+		ans += (func(dist(seed1)));
+	}
+	return ((max - min) * ans / n);
+}
+// 長方形法
+template <typename T, typename U, typename Fn>
+T integral_rectangle(Fn func, T min, T max, U n)
+{
+	T pitch;
+	pitch = (max - min) / n;
+	T x = min;
+	T ans1;
+	T ans_re = 0;
+	while (x < max)
+	{
+		x += (pitch / 2);
+		ans1 = func(x);
+		ans_re += (ans1 * pitch);
+		x += (pitch / 2);
+	}
+	return ans_re;
+}
 
 // 文字列の分割
 std::vector<std::string> split(std::string str, char sep)
@@ -68,12 +163,12 @@ template <typename Fn>
 void read_csv_line(std::string filename, char sep, Fn lamde_func)
 {
 
-	std::ifstream read_csv(filename, std::ios::in);
+	std::ifstream readcsv(filename, std::ios::in);
 	std::string temp_line;
 	std::vector<std::string> temp_cell;
 
 	// データの１行
-	while (getline(read_csv, temp_line))
+	while (getline(readcsv, temp_line))
 	{
 
 		// 分割
@@ -129,8 +224,8 @@ make_matrix<T>::make_matrix()
 template <typename T>
 v2_T(T) make_matrix<T>::getter_diag(T data_num)
 {
-	v2_T(T) ans = make_matrix(data_num, data_num); // 定義
-	rep(loop_i, data_num) ans[loop_i][loop_i] = 1; // 対角成分を1にする
+	v2_T(T) ans = this->make_matrix<T>::getter_matrix0(data_num, data_num); // 定義
+	rep(loop_i, data_num) ans[loop_i][loop_i] = 1;							// 対角成分を1にする
 
 	return ans;
 };
@@ -144,7 +239,258 @@ v2_T(T) make_matrix<T>::getter_matrix0(T row, T col)
 	return ans;
 };
 
-// csvファイルを読み込むクラス
+// 行列
+template <typename T>
+std::vector<std::vector<T>> diag_func(std::vector<T> &data)
+{
+	unsigned long long int temp = data.size();
+	typename std::vector<std::vector<T>> ans(temp, std::vector<T>(temp, 0));
+
+	for (temp = 0; temp < data.size(); temp++)
+	{
+		ans[temp][temp] = data[temp];
+	}
+	return ans;
+}
+
+// 行列
+template <typename T>
+std::vector<T> diag_func(std::vector<std::vector<T>> &data)
+{
+	unsigned long long int temp = data.size();
+	typename std::vector<T> ans(temp, 0);
+
+	for (temp = 0; temp < data.size(); temp++)
+	{
+		ans[temp] = data[temp][temp];
+	}
+	return ans;
+}
+
+// 行列計算
+template <typename T>
+std::vector<std::vector<T>> matrix_sum_func(std::vector<std::vector<T>> data_a, std::vector<std::vector<T>> data_b)
+{
+	// 同じかどうか
+	if (data_a.size() != data_b.size() || data_a[0].size() != data_b[0].size())
+	{
+		std::cout << "error" << std::endl;
+		exit(-250);
+	}
+
+	unsigned long long int temp_i, temp_j;
+	// 和
+	std::vector<std::vector<T>> ans(data_a.size(), std::vector<T>(data_a[0].size(), 0));
+
+	for (temp_i = 0; temp_i < data_a.size(); temp_i++)
+	{
+		for (temp_j = 0; temp_j < data_a[0].size(); temp_j++)
+		{
+			// 和
+			ans[temp_i][temp_j] = data_a[temp_i][temp_j] + data_b[temp_i][temp_j];
+		}
+	}
+	return ans;
+}
+
+// 行列計算
+template <typename T>
+std::vector<std::vector<T>> matrix_difference_func(std::vector<std::vector<T>> data_a, std::vector<std::vector<T>> data_b)
+{
+	// 同じかどうか
+	if (data_a.size() != data_b.size() || data_a[0].size() != data_b[0].size())
+	{
+		std::cout << "error" << std::endl;
+		exit(-280);
+	}
+
+	unsigned long long int temp_i, temp_j;
+	// 差
+	std::vector<std::vector<T>> ans(data_a.size(), std::vector<T>(data_a[0].size(), 0));
+
+	for (temp_i = 0; temp_i < data_a.size(); temp_i++)
+	{
+		for (temp_j = 0; temp_j < data_a[0].size(); temp_j++)
+		{
+			// 差
+			ans[temp_i][temp_j] = data_a[temp_i][temp_j] - data_b[temp_i][temp_j];
+		}
+	}
+	return ans;
+}
+
+// 行列計算
+template <typename T, typename U>
+std::vector<std::vector<T>> matrix_times_func(std::vector<std::vector<T>> data_a, U times)
+{
+	unsigned long long int temp_i, temp_j;
+	// 答え
+	std::vector<std::vector<T>> ans(data_a.size(), std::vector<T>(data_a[0].size(), 0));
+
+	//
+	for (temp_i = 0; temp_i < data_a.size(); temp_i++)
+	{
+		for (temp_j = 0; temp_j < data_a[0].size(); temp_j++)
+		{
+			// 差
+			ans[temp_i][temp_j] = times * data_a[temp_i][temp_j];
+		}
+	}
+	return ans;
+}
+
+// 行列計算 転置
+template <typename T>
+void matrix_transposed_func(std::vector<std::vector<T>> &data)
+{
+	// 正則行列判定
+	if (data.size() != data[0].size())
+	{
+		std::cout << "error" << std::endl;
+		exit(-330);
+	}
+
+	unsigned long long int temp_i, temp_j;
+
+	// 答え
+	for (temp_i = 0; temp_i < data.size(); temp_i++)
+	{
+		for (temp_j = (temp_i + 1); temp_j < data[0].size(); temp_j++)
+		{
+
+			// 入れ替え
+			swap(data[temp_i][temp_j], data[temp_j][temp_i]);
+		}
+	}
+	return;
+}
+
+// 行列計算
+template <typename T>
+std::vector<std::vector<T>> matrix_product(std::vector<std::vector<T>> data_a, std::vector<std::vector<T>> data_b)
+{
+	unsigned long long int temp_am, temp_an, temp_bm, temp_bn;
+
+	// 行列のサイズ
+	temp_am = data_a.size();
+	temp_an = data_a[0].size();
+	temp_bm = data_b.size();
+	temp_bn = data_b[0].size();
+
+	// 答えのサイズ
+	unsigned long long int temp_ans_m, temp_ans_n;
+	temp_ans_m = temp_am;
+	temp_ans_n = temp_bn;
+
+	if (temp_an != temp_bm)
+	{
+		std::cout << "error" << std::endl;
+		exit(-372);
+	}
+
+	// 答え
+	typename std::vector<std::vector<T>> ans(temp_ans_m, std::vector<T>(temp_ans_n, 0));
+	unsigned long long int loop_am, loop_bn;
+
+	// 計算
+
+	// 行
+	for (loop_am = 0; loop_am < temp_am; loop_am++)
+	{
+
+		// 列
+		for (loop_bn = 0; loop_bn < temp_bn; loop_bn++)
+		{
+			// 計算
+
+			for (unsigned long long int temp = 0; temp < temp_an; temp++)
+			{
+				ans[loop_am][loop_bn] += data_a[loop_am][temp] * data_b[temp][loop_bn];
+			}
+		}
+	}
+
+	return ans;
+}
+
+// 行列の計算　逆行列
+template <typename T>
+std::vector<std::vector<T>> solve_func(std::vector<std::vector<T>> &data)
+{
+	if (data.size() != data[0].size())
+	{
+		std::cout << "error" << std::endl;
+		exit(-370);
+	}
+
+	// 行列の記入
+	class make_matrix<T> matrix_e;
+	typename std::vector<std::vector<T>> matrix_ans = matrix_e.getter_diag(data.size());
+	typename std::vector<std::vector<T>> matrix_data = data;
+
+	// 計算機イプシロンの定義
+	LLD data_eps = std::numeric_limits<T>::epsilon();
+	unsigned long long int temp_i, temp_j;
+
+	// 全体
+	for (unsigned long long int temp_now = 0; temp_now < matrix_data.size(); temp_now++)
+	{
+
+		// 0の時は別
+		if (abs(matrix_data[temp_now][temp_now]) <= data_eps)
+		{
+			for (temp_i = temp_now; temp_i < matrix_data.size(); temp_i++)
+			{
+				if (matrix_data[temp_i][temp_now] != 0)
+				{
+
+					for (temp_j = 0; temp_j < matrix_data.size(); temp_j++)
+					{
+
+						// 行の入れ替え
+						swap(matrix_data[temp_now][temp_j], matrix_data[temp_i][temp_j]);
+						// 答えもいれかえ
+						swap(matrix_ans[temp_now][temp_j], matrix_ans[temp_i][temp_j]);
+					}
+					break;
+				}
+			}
+		}
+
+		// 計算
+		// 1行目を1にする
+		// 仮変数
+		long double temp_now_data;
+
+		temp_now_data = matrix_data[temp_now][temp_now];
+		for (temp_i = 0; temp_i < matrix_data[temp_now].size(); temp_i++)
+		{
+			matrix_data[temp_now][temp_i] /= temp_now_data;
+			matrix_ans[temp_now][temp_i] /= temp_now_data;
+		}
+
+		// 2行目移行の計算
+		for (temp_i = 0; temp_i < matrix_data.size(); temp_i++)
+		{
+			if (temp_i != temp_now)
+			{
+				// 2列目（定数倍の定義）
+				temp_now_data = matrix_data[temp_i][temp_now];
+				for (temp_j = 0; temp_j < matrix_data[0].size(); temp_j++)
+				{
+					// 答え
+					// 定数倍 ×　値　
+					matrix_ans[temp_i][temp_j] -= temp_now_data * matrix_ans[temp_now][temp_j];
+					matrix_data[temp_i][temp_j] -= temp_now_data * matrix_data[temp_now][temp_j];
+				}
+			}
+		}
+	}
+
+	return matrix_ans;
+}
+
+//  csvファイルを読み込むクラス
 class read_csv
 {
 private:
@@ -287,7 +633,7 @@ void write_csv(v2_T(T) data, std::string filename = "a.csv", std::ios_base::open
 	rep(row, data.size())
 	{
 		// ループ
-		rep(col, ((data.size()) - 1))
+		rep(col, ((data[0].size()) - 1))
 		{
 			// 書き込み
 			write << data[row][col] << sep;
@@ -461,6 +807,30 @@ void write_csv(std::unordered_map<T, std::vector<U>> ans_map, std::string filena
 		// 更新
 		map_iter++;
 	}
+
+	return;
+}
+
+// ファウル出力　ベクトル
+template <typename T>
+void write_csv(std::vector<T> &data, std::string filename = "a.csv", std::ios_base::openmode mode = std::ios::out, char sep = ',')
+{
+
+	// ファイル出力
+	std::ofstream write(filename, mode);
+
+	typename std::vector<T>::iterator vec_iter;
+
+	for (vec_iter = data.begin(); vec_iter != data.end(); ++vec_iter)
+	{
+		if (vec_iter != data.begin())
+		{
+			write << sep;
+		}
+		write << *vec_iter;
+	}
+
+	write << std::endl;
 
 	return;
 }
@@ -706,18 +1076,17 @@ void data_statistics<T>::setter(v_T(T) & data)
 template <typename T>
 void data_statistics<T>::function(v_T(T) data)
 {
-	sum_value = std::accumulate(v_all(data), (T)0);
+	sum_value = fast_sum(data);
 	max_value = std::max_element(v_all(data));
 	min_value = std::min_element(v_all(data));
 	this->mean_value = sum_value / data.size();
 
 	// 分散の計算
 	//  最初1　最後1　最初2　初期値
-auto variance_func1 = [this](LLD acc, LLD a)
-{
-    return (acc + std::pow(a - this->mean_value, 2));
-};
-
+	auto variance_func1 = [this](LLD acc, LLD a)
+	{
+		return (acc + std::pow(a - this->mean_value, 2));
+	};
 
 	variance_value = std::accumulate(data.begin(), data.end(), 0.0, variance_func1) / data.size();
 
@@ -817,8 +1186,8 @@ protected:
 template <typename T>
 data_statistics_vector<T>::data_statistics_vector() : data_statistics<std::vector<T>>()
 {
-this->now_temp=0;
- this->now_col=0;
+	this->now_temp = 0;
+	this->now_col = 0;
 	this->max_vector = {};
 	this->min_vector = {};
 	this->mean_vector = {};
@@ -829,7 +1198,8 @@ this->now_temp=0;
 	this->sum_vector = {};
 }
 
-template <typename T> void data_statistics_vector<T>::setter(v2_T(T) datas)
+template <typename T>
+void data_statistics_vector<T>::setter(v2_T(T) datas)
 {
 
 	// 列数を取得
@@ -862,39 +1232,46 @@ template <typename T> void data_statistics_vector<T>::setter(v2_T(T) datas)
 }
 
 // 出力
-template <typename T> v_T(LLD) data_statistics_vector<T>::get_max()
+template <typename T>
+v_T(LLD) data_statistics_vector<T>::get_max()
 {
 	return max_vector;
 };
-template <typename T> v_T(LLD) data_statistics_vector<T>::get_min()
+template <typename T>
+v_T(LLD) data_statistics_vector<T>::get_min()
 {
 	return min_vector;
 };
-template <typename T> v_T(LLD) data_statistics_vector<T>::get_mean()
+template <typename T>
+v_T(LLD) data_statistics_vector<T>::get_mean()
 {
 	return mean_vector;
 };
-template <typename T> v_T(LLD) data_statistics_vector<T>::get_median()
+template <typename T>
+v_T(LLD) data_statistics_vector<T>::get_median()
 {
 	return median_vector;
 };
-template <typename T> v_T(LLD) data_statistics_vector<T>::get_mode()
+template <typename T>
+v_T(LLD) data_statistics_vector<T>::get_mode()
 {
 	return mode_vector;
 };
-template <typename T> v_T(LLD) data_statistics_vector<T>::get_variance()
+template <typename T>
+v_T(LLD) data_statistics_vector<T>::get_variance()
 {
 	return variance_vector;
 };
-template <typename T> v_T(LLD) data_statistics_vector<T>::get_sd()
+template <typename T>
+v_T(LLD) data_statistics_vector<T>::get_sd()
 {
 	return sd_vector;
 };
-template <typename T> v_T(LLD) data_statistics_vector<T>::get_sum()
+template <typename T>
+v_T(LLD) data_statistics_vector<T>::get_sum()
 {
 	return sum_vector;
 };
-
 
 // テキストファイルにカンマを入れる
 void text_comma(std::string filename = "a.txt", std::string byte_file = "byte.csv", std::string output_file = "a.csv")
@@ -971,7 +1348,7 @@ T binary_search_tree(T &data_a, T &data_b, Fn &func)
 	T ans_a = func(data_a);
 	T ans_b = func(data_b);
 
-	if (ans_a<ans_b)
+	if (ans_a < ans_b)
 	{
 		ans = binary_search_tree(data_a, mean, func);
 	}
@@ -984,41 +1361,37 @@ T binary_search_tree(T &data_a, T &data_b, Fn &func)
 }
 
 // 二分木探索(配列)
-template <typename T, typename U,typename Fn>
-U binary_search_tree(std::vector<T> &data_v,U data_a, U data_b, Fn &func)
+template <typename T, typename U, typename Fn>
+U binary_search_tree(std::vector<T> &data_v, U data_a, U data_b, Fn &func)
 {
 
-U ans;
-T ans_a = func(data_a);
-T ans_b = func(data_b);
+	U ans;
+	T ans_a = func(data_a);
+	T ans_b = func(data_b);
 
-if(abs(data_a-data_b)==1){
+	if (abs(data_a - data_b) == 1)
+	{
 
-ans = (ans_a<ans_b)? data_a:data_b;
+		ans = (ans_a < ans_b) ? data_a : data_b;
 
-return ans;
+		return ans;
+	}
 
-}
+	U ans_now = (data_a + data_b) / 2;
 
+	if (ans_a < ans_b)
+	{
 
-U ans_now = (data_a + data_b) / 2;
+		ans = binary_search_tree(data_v, data_a, ans_now, func);
+	}
+	else
+	{
 
-
-if(ans_a<ans_b){
-
-ans = binary_search_tree(data_v,data_a,ans_now,func);
-
-}else{
-
-ans = binary_search_tree(data_v,ans_now,data_b,func);
-
-}
+		ans = binary_search_tree(data_v, ans_now, data_b, func);
+	}
 
 	return ans;
-
 }
-
-
 
 // log sum exp
 template <typename T>
@@ -1036,4 +1409,321 @@ T log_sum_exp(std::vector<T> data)
 
 	// logをとる
 	return max_value + std::log(sum);
+}
+
+// 全て足す
+template <typename T>
+T sum(std::vector<T> data)
+{
+
+	std::sort(data.begin(), data.end());
+
+	T ans;
+	ans = std::accumulate(data.begin(), data.end(), (T)0);
+
+	return ans;
+}
+
+template <typename T>
+T fast_sum(std::vector<T> data)
+{
+
+	T ans;
+	ans = std::reduce(data.begin(), data.end(), (T)0);
+
+	return ans;
+}
+
+// 全てかける
+template <typename T>
+T product(std::vector<T> data)
+{
+
+	T ans;
+	ans = std::accumulate(data.begin(), data.end(), (T)1, std::multiplies<T>());
+
+	return ans;
+}
+template <typename T>
+T fast_product(std::vector<T> data)
+{
+	T ans;
+	ans = std::reduce(data.begin(), data.end(), (T)1, std::multiplies<T>());
+	return ans;
+}
+
+// データの条件抽出
+template <typename T>
+std::vector<T> condition_extraction(std::vector<T> data, T conditions)
+{
+	typename std::vector<T>::iterator data_iter;
+	typename std::vector<T> ans;
+
+	for (data_iter = data.begin(); data_iter != data.end(); data_iter++)
+	{
+		if (*data_iter == conditions)
+		{
+			ans.push_back(*data_iter);
+		}
+	}
+	return ans;
+}
+
+// データの条件抽出 配列
+template <typename T>
+std::vector<T> condition_extraction(std::vector<T> data, std::vector<T> conditions)
+{
+	typename std::vector<T>::iterator data_iter;
+	typename std::vector<T>::iterator conditions_iter;
+	typename std::vector<T> ans;
+
+	if (conditions.size() == 0)
+	{
+		std::cout << "条件の数が0です\n"
+				  << std::endl;
+		exit(-1097);
+	}
+
+	for (data_iter = data.begin(); data_iter != data.end(); data_iter++)
+	{
+		for (conditions_iter = conditions.begin(); conditions_iter != conditions.end(); conditions_iter++)
+		{
+			if (*data_iter == *conditions_iter)
+			{
+				ans.push_back(*data_iter);
+			}
+		}
+	}
+	return ans;
+}
+
+// データの条件抽出
+template <typename T, typename... Args>
+std::vector<T> condition_extraction(std::vector<T> data, Args... args)
+{
+	typename std::vector<T> ans;
+	typename std::vector<T> conditions = {args...};
+
+	ans = condition_extraction(data, conditions);
+
+	return ans;
+}
+
+// 多次元
+template <typename T, typename... Args>
+std::vector<std::vector<T>> condition_extraction(std::vector<std::vector<T>> data, Args... args)
+{
+	std::tuple<Args...> conditions = std::make_tuple(args...);
+	std::vector<std::vector<T>> result;
+
+	for (const auto &row : data)
+	{
+		bool satisfiesConditions = true;
+
+		// もとの形
+		//   std::make_tuple([](const std::string& s) { return s == "A" || s == "B"; }, 2),
+
+		// std::applyを使用して、各タプルの要素に対してラムダを適用
+		std::apply([&](auto &&...condition)
+				   {
+			// 各条件と対応する列のインデックスを展開
+
+			//get<0>は条件式
+			//get<1> は対象のセル
+			//row [get<1>]でアクセス　const std::string& s
+			//（）の部分でラムダ式の引数を指定
+
+			//Ture＆＆（判定） どちらもture の時のみTureを返す
+
+			((satisfiesConditions = satisfiesConditions && std::get<0>(condition)(row[std::get<1>(condition)])), ...); },
+				   conditions); // 2つめ　セルを返す
+
+		if (satisfiesConditions)
+		{
+			result.push_back(row);
+		}
+	}
+
+	return result;
+}
+
+// １行ごとに判定
+template <typename... Args>
+bool condition_extraction(std::string data, char sep, Args... args)
+{
+	std::vector<std::string> temp_data = split(data, sep);
+	std::tuple<Args...> conditions = std::make_tuple(args...);
+
+	// 判定
+	bool satisfiesConditions = true;
+
+	// 関数　引数（タプル型）
+	std::apply([&](auto &&...condition)
+			   { ((satisfiesConditions = satisfiesConditions && std::get<0>(condition)(temp_data[std::get<1>(condition)])), ...); },
+			   conditions);
+
+	return satisfiesConditions;
+}
+
+// 出力
+// 0の時
+void print()
+{
+	std::cout << std::endl;
+};
+// 1つ以上の時
+template <typename T, typename... Args>
+void print(T &output, Args... args)
+{
+	std::cout << output << " ";
+	print(args...);
+
+	return;
+}
+
+// 連立方程式を解く
+template <typename T>
+std::vector<T> simultaneous_equation(std::vector<std::vector<T>> &data, std::vector<T> &data_ans)
+{
+	if (data.size() != data_ans.size())
+	{
+		std::cout << "error" << std::endl;
+		exit(-1593);
+	}
+
+	// 行列の記入
+	typename std::vector<std::vector<T>> matrix_data = data;
+	typename std::vector<T> ans = data_ans;
+
+	// 計算機イプシロンの定義
+	LLD data_eps = std::numeric_limits<T>::epsilon();
+	unsigned long long int temp_i, temp_j;
+
+	// 全体
+	for (unsigned long long int temp_now = 0; temp_now < matrix_data.size(); temp_now++)
+	{
+
+		// 0の時は別
+		if (abs(matrix_data[temp_now][temp_now]) <= data_eps)
+		{
+			for (temp_i = temp_now; temp_i < matrix_data.size(); temp_i++)
+			{
+				if (matrix_data[temp_i][temp_now] != 0)
+				{
+
+					for (temp_j = 0; temp_j < matrix_data.size(); temp_j++)
+					{
+
+						// 行の入れ替え
+						swap(matrix_data[temp_now][temp_j], matrix_data[temp_i][temp_j]);
+					}
+
+					// 答えもいれかえ
+					swap(ans[temp_now], ans[temp_i]);
+					break;
+				}
+			}
+		}
+
+		// 計算
+		// 1行目を1にする
+		// 仮変数
+		long double temp_now_data;
+
+		temp_now_data = matrix_data[temp_now][temp_now];
+		for (temp_i = 0; temp_i < matrix_data[temp_now].size(); temp_i++)
+		{
+			matrix_data[temp_now][temp_i] /= temp_now_data;
+		}
+		ans[temp_now] /= temp_now_data;
+
+		// 2行目移行の計算
+		for (temp_i = 0; temp_i < matrix_data.size(); temp_i++)
+		{
+			if (temp_i != temp_now)
+			{
+				// 2列目（定数倍の定義）
+				temp_now_data = matrix_data[temp_i][temp_now];
+				for (temp_j = 0; temp_j < matrix_data[0].size(); temp_j++)
+				{
+
+					// 定数倍 ×　値　
+					matrix_data[temp_i][temp_j] -= temp_now_data * matrix_data[temp_now][temp_j];
+				}
+				// 答え
+				ans[temp_i] -= temp_now_data * ans[temp_now];
+			}
+		}
+	}
+
+	return ans;
+}
+
+// 固有値を求める2×2
+template <typename T>
+T det_func2(std::vector<std::vector<T>> &data)
+{
+
+	// 判定
+	if (data.size() != 2)
+	{
+		std::cout << "error" << std::endl;
+		exit(-1667);
+	}
+
+	if (data[0].size() != 2)
+	{
+		std::cout << "error" << std::endl;
+		exit(-1672);
+	}
+
+	T ans;
+
+	ans = data[0][0] * data[1][1] - data[0][1] * data[1][0];
+
+	return ans;
+}
+
+// 固有値を求める
+template <typename T>
+T det_func(std::vector<std::vector<T>> &data)
+{
+	T ans = 0;
+	unsigned long long int temp_i, temp_j, temp;
+
+	if (data.size() == 2)
+	{
+		ans = det_func2(data);
+		return ans;
+	}
+	else
+	{
+
+		// 判定
+		for (temp = 0; temp < data.size(); temp++)
+		{
+			typename std::vector<std::vector<T>> data_next;
+
+			// 余因子
+			for (temp_i = 1; temp_i < data.size(); temp_i++)
+			{
+
+				typename std::vector<T> data_next_temp;
+				// 行
+				for (temp_j = 0; temp_j < data.size(); temp_j++)
+				{
+
+					if (temp_j != temp)
+					{
+						data_next_temp.push_back(data[temp_i][temp_j]);
+					}
+				}
+				data_next.push_back(data_next_temp);
+			}
+
+			ans += std::pow(-1, temp) * data[0][temp] * det_func(data_next);
+		}
+	}
+
+	return ans;
 }
