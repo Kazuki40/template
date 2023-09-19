@@ -1,3 +1,6 @@
+#ifndef TEMPLATE_MAIN_H
+#define TEMPLATE_MAIN_H
+
 #pragma once
 #include <iostream>
 #include <string>
@@ -132,16 +135,17 @@ T integral_rectangle(Fn func, T min, T max, U n)
 }
 
 // 文字列の分割
-std::vector<std::string> split(std::string str, char sep)
+template <typename T,typename U>
+std::vector<T> split(T str, U sep)
 {
 	ULLI first = 0;
 	ULLI last = str.find_first_of(sep); // 最初に現れたデリミタの位置を取得
 
-	std::vector<std::string> result;
+	typename std::vector<T> result;
 
 	while (first < str.size())
 	{
-		std::string subStr(str, first, last - first); // 前から数えて文字の場所まで取り出す
+		T subStr(str, first, last - first); // 前から数えて文字の場所まで取り出す
 
 		result.push_back(subStr); // 書き込み
 
@@ -1274,7 +1278,8 @@ v_T(LLD) data_statistics_vector<T>::get_sum()
 };
 
 // テキストファイルにカンマを入れる
-void text_comma(std::string filename = "a.txt", std::string byte_file = "byte.csv", std::string output_file = "a.csv")
+template<typename T>
+void text_comma(T filename = "a.txt", T byte_file = "byte.csv", T output_file = "a.csv")
 {
 	std::cout << "byteなどが書かれたcsv は，　項目,文字数, バイト数　で記入して\n";
 	v2_T(std::string) byte_data;
@@ -1320,14 +1325,14 @@ void text_comma(std::string filename = "a.txt", std::string byte_file = "byte.cs
 }
 
 // 日付の型をそろえる
-std::string remove_zero_form_date(std::string &date, char sep = '/')
+template<typename T>T remove_zero_form_date(T &date, char sep = '/')
 {
 	// 日付の共通化
-	std::vector<std::string> date_int = split(date, sep);
+	typename std::vector<T> date_int = split(date, sep);
 	int now_y = std::stoi(date_int[0]);
 	int now_m = std::stoi(date_int[1]);
 	int now_d = std::stoi(date_int[2]);
-	std::string now_date = T_to_date_trans_func(now_y, now_m, now_d, sep);
+	T now_date = T_to_date_trans_func(now_y, now_m, now_d, sep);
 	return now_date;
 }
 
@@ -1567,6 +1572,7 @@ bool condition_extraction(std::string data, char sep, Args... args)
 
 // 出力
 // 0の時
+template <typename T>
 void print()
 {
 	std::cout << std::endl;
@@ -1727,3 +1733,8 @@ T det_func(std::vector<std::vector<T>> &data)
 
 	return ans;
 }
+
+
+
+
+#endif // !TEMPLATE_MAIN_H
