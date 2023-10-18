@@ -19,42 +19,42 @@
 #include <array>
 #include <iomanip>
 
-// å…ˆå®šç¾©
+// æ’è‹`
 template <typename T>
-void swap(T &, T &);
+void swap(T&, T&);
 
-// ãƒã‚¯ãƒ­
+// ƒ}ƒNƒ
 
-// ãƒ‡ãƒãƒƒã‚¯ç”¨
+// ƒfƒoƒbƒN—p
 #define debug(x) std::cerr << "\033[33m(line:" << __LINE__ << ") " << #x << ": " << x << "\033[m" << std::endl;
 
-// å‹å®šç¾©
+// Œ^’è‹`
 #define ULLI unsigned long long int
 #define LLD long double
 
-// ãƒ«ãƒ¼ãƒ—
+// ƒ‹[ƒv
 #define rep(i, n) for (i = 0; i < n; i++)
 
-// 2æ¬¡å…ƒé…åˆ—ã®å®šç¾©
+// 2ŸŒ³”z—ñ‚Ì’è‹`
 #define v2_T(T) std::vector<v_T(T)>
-// 1æ¬¡å…ƒé…åˆ—ã®å®šç¾©
+// 1ŸŒ³”z—ñ‚Ì’è‹`
 #define v_T(T) std::vector<T>
 
-// å…¨ã¦é¸æŠ
+// ‘S‚Ä‘I‘ğ
 #define v_all(v) (v).begin(), (v).end()
 
-// Ï€(C++20 ãŒä½¿ãˆã‚‹æ™‚ã¯ numbers ã‹ã‚‰å–å¾—ã™ã‚‹æ–¹ãŒã„ã„ã„ï¼‰
+// ƒÎ(C++20 ‚ªg‚¦‚é‚Í numbers ‚©‚çæ“¾‚·‚é•û‚ª‚¢‚¢‚¢j
 #define PI std::acos(-1)
 
-#define write_fixed(n, x) cout << std::fixed << std::setprecision(n) << x << endl // æœ‰åŠ¹æ•°å­—
+#define write_fixed(n, x) cout << std::fixed << std::setprecision(n) << x << endl // —LŒø”š
 
-// è¡Œåˆ—ã®è¡¨ç¤ºç”¨é–¢æ•°
+// s—ñ‚Ì•\¦—pŠÖ”
 template <typename T>
-void printMatrix(const std::vector<std::vector<T>> &matrix)
+void printMatrix(const std::vector<std::vector<T>>& matrix)
 {
-	for (const auto &row : matrix)
+	for (const auto& row : matrix)
 	{
-		for (const auto &val : row)
+		for (const auto& val : row)
 		{
 			std::cout << val << " ";
 		}
@@ -62,28 +62,28 @@ void printMatrix(const std::vector<std::vector<T>> &matrix)
 	}
 }
 
-// é–¢æ•°
-// Î£(0ã‹ã‚‰k)x
+// ŠÖ”
+// ƒ°(0‚©‚çk)x
 template <typename T>
 T siguma_func_one(T k)
 {
 	return (k * (k + 1)) / 2;
 }
-// Î£(0ã‹ã‚‰k)x^2
+// ƒ°(0‚©‚çk)x^2
 template <typename T>
 T siguma_func_two(T k)
 {
 	return (k * (k + 1) * (2 * k + 1)) / 6;
 }
-// Î£(0ã‹ã‚‰k)x^3
+// ƒ°(0‚©‚çk)x^3
 template <typename T>
 T siguma_func_three(T k)
 {
 	return powl(siguma_func_one(k), 2);
 }
 
-// ç©åˆ†
-// å°å½¢æ³•
+// Ï•ª
+// ‘äŒ`–@
 template <typename T, typename U, typename Fn>
 T integral_trapezoid(Fn func, U min, U max, U n)
 {
@@ -116,7 +116,7 @@ T integral_rand(Fn func, T min, T max, U n)
 	}
 	return ((max - min) * ans / n);
 }
-// é•·æ–¹å½¢æ³•
+// ’·•ûŒ`–@
 template <typename T, typename U, typename Fn>
 T integral_rectangle(Fn func, T min, T max, U n)
 {
@@ -135,25 +135,25 @@ T integral_rectangle(Fn func, T min, T max, U n)
 	return ans_re;
 }
 
-// æ–‡å­—åˆ—ã®åˆ†å‰²
-template <typename T,typename U>
+// •¶š—ñ‚Ì•ªŠ„
+template <typename T, typename U>
 std::vector<T> split(T str, U sep)
 {
 	ULLI first = 0;
-	ULLI last = str.find_first_of(sep); // æœ€åˆã«ç¾ã‚ŒãŸãƒ‡ãƒªãƒŸã‚¿ã®ä½ç½®ã‚’å–å¾—
+	ULLI last = str.find_first_of(sep); // Å‰‚ÉŒ»‚ê‚½ƒfƒŠƒ~ƒ^‚ÌˆÊ’u‚ğæ“¾
 
 	typename std::vector<T> result;
 
 	while (first < str.size())
 	{
-		T subStr(str, first, last - first); // å‰ã‹ã‚‰æ•°ãˆã¦æ–‡å­—ã®å ´æ‰€ã¾ã§å–ã‚Šå‡ºã™
+		T subStr(str, first, last - first); // ‘O‚©‚ç”‚¦‚Ä•¶š‚ÌêŠ‚Ü‚Åæ‚èo‚·
 
-		result.push_back(subStr); // æ›¸ãè¾¼ã¿
+		result.push_back(subStr); // ‘‚«‚İ
 
-		first = last + 1;					  // å¯¾è±¡ã®æ–‡å­—ã‹ã‚‰ï¼‘æ–‡å­—ãšã‚‰ã™
-		last = str.find_first_of(sep, first); // æ¬¡ã®ãƒ‡ãƒªãƒŸã‚¿ã¾ã§ã®é•·ã•ã‚’å–å¾—
+		first = last + 1;					  // ‘ÎÛ‚Ì•¶š‚©‚ç‚P•¶š‚¸‚ç‚·
+		last = str.find_first_of(sep, first); // Ÿ‚ÌƒfƒŠƒ~ƒ^‚Ü‚Å‚Ì’·‚³‚ğæ“¾
 
-		// ã‚‚ã—è¦‹ã¤ã‹ã‚‰ãªã‘ã‚Œã°ï¼Œæœ€å¾Œã«ã™ã‚‹
+		// ‚à‚µŒ©‚Â‚©‚ç‚È‚¯‚ê‚ÎCÅŒã‚É‚·‚é
 		if (last == std::string::npos)
 		{
 			last = str.size();
@@ -163,7 +163,7 @@ std::vector<T> split(T str, U sep)
 	return result;
 }
 
-// ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ç”¨
+// ƒtƒ@ƒCƒ‹“Ç‚İ‚İ—p
 template <typename Fn>
 void read_csv_line(std::string filename, char sep, Fn lamde_func)
 {
@@ -172,33 +172,33 @@ void read_csv_line(std::string filename, char sep, Fn lamde_func)
 	std::string temp_line;
 	std::vector<std::string> temp_cell;
 
-	// ãƒ‡ãƒ¼ã‚¿ã®ï¼‘è¡Œ
+	// ƒf[ƒ^‚Ì‚Ps
 	while (getline(readcsv, temp_line))
 	{
 
-		// åˆ†å‰²
+		// •ªŠ„
 		temp_cell = split(temp_line, sep);
 
 		/*
-		ãƒ©ãƒ ãƒ€å¼
+		ƒ‰ƒ€ƒ_®
 
-		{}(å¼•æ•°)void {å‡¦ç†}
-		[]:ã‚­ãƒ£ãƒ—ãƒãƒ£ãƒªã‚¹ãƒˆ [&] ã¯å‚ç…§æ¸¡ã— [=} ã¯å€¤æ¸¡ã— [this] ã¯ãƒ¡ãƒ³ãƒå¤‰æ•°ã‚’ä½¿ã†æ™‚
-		():å¼•æ•°
+		{}(ˆø”)void {ˆ—}
+		[]:ƒLƒƒƒvƒ`ƒƒƒŠƒXƒg [&] ‚ÍQÆ“n‚µ [=} ‚Í’l“n‚µ [this] ‚Íƒƒ“ƒo•Ï”‚ğg‚¤
+		():ˆø”
 		->
-		void è¿”ã‚Šå€¤
-		{}:å‡¦ç†
-		() å³æ™‚å®Ÿè¡Œ
+		void •Ô‚è’l
+		{}:ˆ—
+		() ‘¦Às
 		*/
 
-		// é–¢æ•°ã®å®Ÿè¡Œ
+		// ŠÖ”‚ÌÀs
 		lamde_func(temp_cell);
 	}
 
 	return;
 }
 
-// è¡Œåˆ—ã‚’ä½œæˆã™ã‚‹ã‚¯ãƒ©ã‚¹ï¼ˆæ¨™æº–ã®ã¿ï¼‰
+// s—ñ‚ğì¬‚·‚éƒNƒ‰ƒXi•W€‚Ì‚İj
 template <typename T>
 class make_matrix
 {
@@ -211,8 +211,8 @@ private:
 
 public:
 	make_matrix();
-	v2_T(T) getter_diag(T data_num = 1);		  // å˜ä½è¡Œåˆ—é–¢æ•°
-	v2_T(T) getter_matrix0(T row = 1, T col = 1); // 0ã®è¡Œåˆ—é–¢æ•°
+	v2_T(T) getter_diag(T data_num = 1);		  // ’PˆÊs—ñŠÖ”
+	v2_T(T) getter_matrix0(T row = 1, T col = 1); // 0‚Ìs—ñŠÖ”
 };
 
 template <typename T>
@@ -225,28 +225,28 @@ make_matrix<T>::make_matrix()
 	this->data_row = 0;
 };
 
-// å˜ä½è¡Œåˆ—ã®ä½œæˆ
+// ’PˆÊs—ñ‚Ìì¬
 template <typename T>
 v2_T(T) make_matrix<T>::getter_diag(T data_num)
 {
-	v2_T(T) ans = this->make_matrix<T>::getter_matrix0(data_num, data_num); // å®šç¾©
-	rep(loop_i, data_num) ans[loop_i][loop_i] = 1;							// å¯¾è§’æˆåˆ†ã‚’1ã«ã™ã‚‹
+	v2_T(T) ans = this->make_matrix<T>::getter_matrix0(data_num, data_num); // ’è‹`
+	rep(loop_i, data_num) ans[loop_i][loop_i] = 1;							// ‘ÎŠp¬•ª‚ğ1‚É‚·‚é
 
 	return ans;
 };
 
-// å…¨ã¦ãŒ0ã®è¡Œåˆ—ã‚’ä½œæˆ
+// ‘S‚Ä‚ª0‚Ìs—ñ‚ğì¬
 template <typename T>
 v2_T(T) make_matrix<T>::getter_matrix0(T row, T col)
 {
-	v2_T(T) ans(row, std::vector<T>(col, 0)); // å®šç¾©
+	v2_T(T) ans(row, std::vector<T>(col, 0)); // ’è‹`
 
 	return ans;
 };
 
-// è¡Œåˆ—
+// s—ñ
 template <typename T>
-std::vector<std::vector<T>> diag_func(std::vector<T> &data)
+std::vector<std::vector<T>> diag_func(std::vector<T>& data)
 {
 	unsigned long long int temp = data.size();
 	typename std::vector<std::vector<T>> ans(temp, std::vector<T>(temp, 0));
@@ -258,9 +258,9 @@ std::vector<std::vector<T>> diag_func(std::vector<T> &data)
 	return ans;
 }
 
-// è¡Œåˆ—
+// s—ñ
 template <typename T>
-std::vector<T> diag_func(std::vector<std::vector<T>> &data)
+std::vector<T> diag_func(std::vector<std::vector<T>>& data)
 {
 	unsigned long long int temp = data.size();
 	typename std::vector<T> ans(temp, 0);
@@ -272,11 +272,11 @@ std::vector<T> diag_func(std::vector<std::vector<T>> &data)
 	return ans;
 }
 
-// è¡Œåˆ—è¨ˆç®—
+// s—ñŒvZ
 template <typename T>
 std::vector<std::vector<T>> matrix_sum_func(std::vector<std::vector<T>> data_a, std::vector<std::vector<T>> data_b)
 {
-	// åŒã˜ã‹ã©ã†ã‹
+	// “¯‚¶‚©‚Ç‚¤‚©
 	if (data_a.size() != data_b.size() || data_a[0].size() != data_b[0].size())
 	{
 		std::cout << "error" << std::endl;
@@ -284,25 +284,25 @@ std::vector<std::vector<T>> matrix_sum_func(std::vector<std::vector<T>> data_a, 
 	}
 
 	unsigned long long int temp_i, temp_j;
-	// å’Œ
+	// ˜a
 	std::vector<std::vector<T>> ans(data_a.size(), std::vector<T>(data_a[0].size(), 0));
 
 	for (temp_i = 0; temp_i < data_a.size(); temp_i++)
 	{
 		for (temp_j = 0; temp_j < data_a[0].size(); temp_j++)
 		{
-			// å’Œ
+			// ˜a
 			ans[temp_i][temp_j] = data_a[temp_i][temp_j] + data_b[temp_i][temp_j];
 		}
 	}
 	return ans;
 }
 
-// è¡Œåˆ—è¨ˆç®—
+// s—ñŒvZ
 template <typename T>
 std::vector<std::vector<T>> matrix_difference_func(std::vector<std::vector<T>> data_a, std::vector<std::vector<T>> data_b)
 {
-	// åŒã˜ã‹ã©ã†ã‹
+	// “¯‚¶‚©‚Ç‚¤‚©
 	if (data_a.size() != data_b.size() || data_a[0].size() != data_b[0].size())
 	{
 		std::cout << "error" << std::endl;
@@ -310,26 +310,26 @@ std::vector<std::vector<T>> matrix_difference_func(std::vector<std::vector<T>> d
 	}
 
 	unsigned long long int temp_i, temp_j;
-	// å·®
+	// ·
 	std::vector<std::vector<T>> ans(data_a.size(), std::vector<T>(data_a[0].size(), 0));
 
 	for (temp_i = 0; temp_i < data_a.size(); temp_i++)
 	{
 		for (temp_j = 0; temp_j < data_a[0].size(); temp_j++)
 		{
-			// å·®
+			// ·
 			ans[temp_i][temp_j] = data_a[temp_i][temp_j] - data_b[temp_i][temp_j];
 		}
 	}
 	return ans;
 }
 
-// è¡Œåˆ—è¨ˆç®—
+// s—ñŒvZ
 template <typename T, typename U>
 std::vector<std::vector<T>> matrix_times_func(std::vector<std::vector<T>> data_a, U times)
 {
 	unsigned long long int temp_i, temp_j;
-	// ç­”ãˆ
+	// “š‚¦
 	std::vector<std::vector<T>> ans(data_a.size(), std::vector<T>(data_a[0].size(), 0));
 
 	//
@@ -337,18 +337,18 @@ std::vector<std::vector<T>> matrix_times_func(std::vector<std::vector<T>> data_a
 	{
 		for (temp_j = 0; temp_j < data_a[0].size(); temp_j++)
 		{
-			// å·®
+			// ·
 			ans[temp_i][temp_j] = times * data_a[temp_i][temp_j];
 		}
 	}
 	return ans;
 }
 
-// è¡Œåˆ—è¨ˆç®— è»¢ç½®
+// s—ñŒvZ “]’u
 template <typename T>
-void matrix_transposed_func(std::vector<std::vector<T>> &data)
+void matrix_transposed_func(std::vector<std::vector<T>>& data)
 {
-	// æ­£å‰‡è¡Œåˆ—åˆ¤å®š
+	// ³‘¥s—ñ”»’è
 	if (data.size() != data[0].size())
 	{
 		std::cout << "error" << std::endl;
@@ -357,32 +357,32 @@ void matrix_transposed_func(std::vector<std::vector<T>> &data)
 
 	unsigned long long int temp_i, temp_j;
 
-	// ç­”ãˆ
+	// “š‚¦
 	for (temp_i = 0; temp_i < data.size(); temp_i++)
 	{
 		for (temp_j = (temp_i + 1); temp_j < data[0].size(); temp_j++)
 		{
 
-			// å…¥ã‚Œæ›¿ãˆ
+			// “ü‚ê‘Ö‚¦
 			swap(data[temp_i][temp_j], data[temp_j][temp_i]);
 		}
 	}
 	return;
 }
 
-// è¡Œåˆ—è¨ˆç®—
+// s—ñŒvZ
 template <typename T>
 std::vector<std::vector<T>> matrix_product(std::vector<std::vector<T>> data_a, std::vector<std::vector<T>> data_b)
 {
 	unsigned long long int temp_am, temp_an, temp_bm, temp_bn;
 
-	// è¡Œåˆ—ã®ã‚µã‚¤ã‚º
+	// s—ñ‚ÌƒTƒCƒY
 	temp_am = data_a.size();
 	temp_an = data_a[0].size();
 	temp_bm = data_b.size();
 	temp_bn = data_b[0].size();
 
-	// ç­”ãˆã®ã‚µã‚¤ã‚º
+	// “š‚¦‚ÌƒTƒCƒY
 	unsigned long long int temp_ans_m, temp_ans_n;
 	temp_ans_m = temp_am;
 	temp_ans_n = temp_bn;
@@ -393,20 +393,20 @@ std::vector<std::vector<T>> matrix_product(std::vector<std::vector<T>> data_a, s
 		exit(-372);
 	}
 
-	// ç­”ãˆ
+	// “š‚¦
 	typename std::vector<std::vector<T>> ans(temp_ans_m, std::vector<T>(temp_ans_n, 0));
 	unsigned long long int loop_am, loop_bn;
 
-	// è¨ˆç®—
+	// ŒvZ
 
-	// è¡Œ
+	// s
 	for (loop_am = 0; loop_am < temp_am; loop_am++)
 	{
 
-		// åˆ—
+		// —ñ
 		for (loop_bn = 0; loop_bn < temp_bn; loop_bn++)
 		{
-			// è¨ˆç®—
+			// ŒvZ
 
 			for (unsigned long long int temp = 0; temp < temp_an; temp++)
 			{
@@ -418,9 +418,9 @@ std::vector<std::vector<T>> matrix_product(std::vector<std::vector<T>> data_a, s
 	return ans;
 }
 
-// è¡Œåˆ—ã®è¨ˆç®—ã€€é€†è¡Œåˆ—
+// s—ñ‚ÌŒvZ@‹ts—ñ
 template <typename T>
-std::vector<std::vector<T>> solve_func(std::vector<std::vector<T>> &data)
+std::vector<std::vector<T>> solve_func(std::vector<std::vector<T>>& data)
 {
 	if (data.size() != data[0].size())
 	{
@@ -428,20 +428,20 @@ std::vector<std::vector<T>> solve_func(std::vector<std::vector<T>> &data)
 		exit(-370);
 	}
 
-	// è¡Œåˆ—ã®è¨˜å…¥
+	// s—ñ‚Ì‹L“ü
 	class make_matrix<T> matrix_e;
 	typename std::vector<std::vector<T>> matrix_ans = matrix_e.getter_diag(data.size());
 	typename std::vector<std::vector<T>> matrix_data = data;
 
-	// è¨ˆç®—æ©Ÿã‚¤ãƒ—ã‚·ãƒ­ãƒ³ã®å®šç¾©
+	// ŒvZ‹@ƒCƒvƒVƒƒ“‚Ì’è‹`
 	LLD data_eps = std::numeric_limits<T>::epsilon();
 	unsigned long long int temp_i, temp_j;
 
-	// å…¨ä½“
+	// ‘S‘Ì
 	for (unsigned long long int temp_now = 0; temp_now < matrix_data.size(); temp_now++)
 	{
 
-		// 0ã®æ™‚ã¯åˆ¥
+		// 0‚Ì‚Í•Ê
 		if (abs(matrix_data[temp_now][temp_now]) <= data_eps)
 		{
 			for (temp_i = temp_now; temp_i < matrix_data.size(); temp_i++)
@@ -452,9 +452,9 @@ std::vector<std::vector<T>> solve_func(std::vector<std::vector<T>> &data)
 					for (temp_j = 0; temp_j < matrix_data.size(); temp_j++)
 					{
 
-						// è¡Œã®å…¥ã‚Œæ›¿ãˆ
+						// s‚Ì“ü‚ê‘Ö‚¦
 						swap(matrix_data[temp_now][temp_j], matrix_data[temp_i][temp_j]);
-						// ç­”ãˆã‚‚ã„ã‚Œã‹ãˆ
+						// “š‚¦‚à‚¢‚ê‚©‚¦
 						swap(matrix_ans[temp_now][temp_j], matrix_ans[temp_i][temp_j]);
 					}
 					break;
@@ -462,9 +462,9 @@ std::vector<std::vector<T>> solve_func(std::vector<std::vector<T>> &data)
 			}
 		}
 
-		// è¨ˆç®—
-		// 1è¡Œç›®ã‚’1ã«ã™ã‚‹
-		// ä»®å¤‰æ•°
+		// ŒvZ
+		// 1s–Ú‚ğ1‚É‚·‚é
+		// ‰¼•Ï”
 		long double temp_now_data;
 
 		temp_now_data = matrix_data[temp_now][temp_now];
@@ -474,17 +474,17 @@ std::vector<std::vector<T>> solve_func(std::vector<std::vector<T>> &data)
 			matrix_ans[temp_now][temp_i] /= temp_now_data;
 		}
 
-		// 2è¡Œç›®ç§»è¡Œã®è¨ˆç®—
+		// 2s–ÚˆÚs‚ÌŒvZ
 		for (temp_i = 0; temp_i < matrix_data.size(); temp_i++)
 		{
 			if (temp_i != temp_now)
 			{
-				// 2åˆ—ç›®ï¼ˆå®šæ•°å€ã®å®šç¾©ï¼‰
+				// 2—ñ–Úi’è””{‚Ì’è‹`j
 				temp_now_data = matrix_data[temp_i][temp_now];
 				for (temp_j = 0; temp_j < matrix_data[0].size(); temp_j++)
 				{
-					// ç­”ãˆ
-					// å®šæ•°å€ Ã—ã€€å€¤ã€€
+					// “š‚¦
+					// ’è””{ ~@’l@
 					matrix_ans[temp_i][temp_j] -= temp_now_data * matrix_ans[temp_now][temp_j];
 					matrix_data[temp_i][temp_j] -= temp_now_data * matrix_data[temp_now][temp_j];
 				}
@@ -495,7 +495,7 @@ std::vector<std::vector<T>> solve_func(std::vector<std::vector<T>> &data)
 	return matrix_ans;
 }
 
-//  csvãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€ã‚¯ãƒ©ã‚¹
+//  csvƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ŞƒNƒ‰ƒX
 class read_csv
 {
 private:
@@ -515,7 +515,7 @@ protected:
 	std::unordered_map<std::string, ULLI> hearder_name;
 	std::unordered_map<std::string, ULLI> row_name;
 	v2_T(std::string) data_matrix;
-	void function(std::string &, bool &, char &, short &);
+	void function(std::string&, bool&, char&, short&);
 };
 
 read_csv::read_csv()
@@ -532,7 +532,7 @@ void read_csv::setter(std::string file, bool header, char sep, short row_name_nu
 	return;
 }
 
-// ã‚²ãƒƒã‚¿ãƒ¼
+// ƒQƒbƒ^[
 std::unordered_map<std::string, ULLI> read_csv::getter_hearder_name()
 {
 	return this->hearder_name;
@@ -548,74 +548,74 @@ v2_T(std::string) read_csv::getter_data_matrix()
 	return this->data_matrix;
 }
 
-void read_csv::function(std::string &file, bool &header, char &sep, short &row_name_num)
+void read_csv::function(std::string& file, bool& header, char& sep, short& row_name_num)
 {
-	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
+	// ƒtƒ@ƒCƒ‹‚ğŠJ‚­
 	std::ifstream read_csv_file(file, std::ios::in);
 
-	// ã‚¨ãƒ©ãƒ¼ã®æ™‚ã®å‡¦ç†
+	// ƒGƒ‰[‚Ì‚Ìˆ—
 	if (!read_csv_file.is_open())
 	{
 		std::cout << "Failed to open the csv file. Please check the file name and try again.\n";
 		return;
 	}
 
-	// ï¼‘è¡Œç›®ã®å‡¦ç†
+	// ‚Ps–Ú‚Ìˆ—
 	this->the_first_line = true;
 
-	// ãƒ«ãƒ¼ãƒ—
+	// ƒ‹[ƒv
 	while (getline(read_csv_file, this->temp_line))
 	{
-		// å¤‰æ•°å®šç¾©
-		// æ ¼ç´ã™ã‚‹ãƒ‡ãƒ¼ã‚¿
+		// •Ï”’è‹`
+		// Ši”[‚·‚éƒf[ƒ^
 		v_T(std::string) temp_data;
 
-		// æ–‡å­—åˆ—ã‚’åˆ†å‰²ã™ã‚‹
+		// •¶š—ñ‚ğ•ªŠ„‚·‚é
 		std::stringstream split(this->temp_line);
 
-		// 0åˆ—ç›®ã®å‡¦ç†
+		// 0—ñ–Ú‚Ìˆ—
 		this->temp_cell_num = 0;
 
-		// åˆ—ã®å‡¦ç†
+		// —ñ‚Ìˆ—
 		while (getline(split, this->temp_cell, sep))
 		{
-			// ä¸è¦ãªè¨˜å·ã‚’å‰Šé™¤
+			// •s—v‚È‹L†‚ğíœ
 			if (this->temp_cell.at(0) == '\"')
 			{
-				this->temp_cell.pop_back();						// æœ€å¾Œã®1æ–‡å­—ã‚’å‰Šé™¤
-				this->temp_cell.erase(this->temp_cell.begin()); // 1æ–‡å­—ç›®ã‚’å‰Šé™¤
+				this->temp_cell.pop_back();						// ÅŒã‚Ì1•¶š‚ğíœ
+				this->temp_cell.erase(this->temp_cell.begin()); // 1•¶š–Ú‚ğíœ
 			}
 
-			// 1è¡Œç›®ã®æ™‚ã®å‡¦ç†
+			// 1s–Ú‚Ì‚Ìˆ—
 			if ((the_first_line == true) && (header == true))
 			{
-				// ãƒ˜ãƒƒãƒ€ãƒ¼ã®åå‰ã¨ç•ªå·ã‚’æ ¼ç´
+				// ƒwƒbƒ_[‚Ì–¼‘O‚Æ”Ô†‚ğŠi”[
 				this->hearder_name.emplace(temp_cell, temp_cell_num);
 			}
 			else
 			{
-				// 1åˆ—ç›®ãŒåå‰ã®æ™‚ã‹ã¤ä»Šï¼‘åˆ—ç›®ã®æ™‚ã®å‡¦ç†
+				// 1—ñ–Ú‚ª–¼‘O‚Ì‚©‚Â¡‚P—ñ–Ú‚Ì‚Ìˆ—
 				if ((row_name_num == 1) && (temp_cell_num == 0))
 				{
-					// 1åˆ—ç›®ãŒåå‰ã®æ™‚ã®å‡¦ç†
+					// 1—ñ–Ú‚ª–¼‘O‚Ì‚Ìˆ—
 					row_name.emplace(temp_cell, row_name.size());
 				}
 				else
 				{
-					// ãƒ‡ãƒ¼ã‚¿ã‚’å°å…¥
+					// ƒf[ƒ^‚ğ“±“ü
 					temp_data.push_back(temp_cell);
 				}
 			}
 
-			// åˆ—ç•ªå·ã‚’å¢—ã‚„ã™
+			// —ñ”Ô†‚ğ‘‚â‚·
 			temp_cell_num++;
 		}
 
-		// ãƒ˜ãƒƒãƒ€ãƒ¼ãŒã‚ã‚‹
+		// ƒwƒbƒ_[‚ª‚ ‚é
 
 		if (!((header == true) && (the_first_line == true)))
 		{
-			// ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´
+			// ƒf[ƒ^‚ğŠi”[
 			this->data_matrix.push_back(temp_data);
 		}
 
@@ -624,51 +624,51 @@ void read_csv::function(std::string &file, bool &header, char &sep, short &row_n
 	return;
 };
 
-// csvãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ›¸ãè¾¼ã‚€é–¢æ•°
-// ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
-// ãƒ‡ãƒ¼ã‚¿ã®ã¿
+// csvƒtƒ@ƒCƒ‹‚ğ‘‚«‚ŞŠÖ”
+// ƒI[ƒo[ƒ[ƒh
+// ƒf[ƒ^‚Ì‚İ
 template <typename T>
 void write_csv(v2_T(T) data, std::string filename = "a.csv", std::ios_base::openmode mode = std::ios::out, char sep = ',')
 {
-	// ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›
+	// ƒtƒ@ƒCƒ‹o—Í
 	std::ofstream write(filename, mode);
-	ULLI row, col; // ä»®å¤‰æ•°
+	ULLI row, col; // ‰¼•Ï”
 
-	// ãƒ«ãƒ¼ãƒ—
+	// ƒ‹[ƒv
 	rep(row, data.size())
 	{
-		// ãƒ«ãƒ¼ãƒ—
+		// ƒ‹[ƒv
 		rep(col, ((data[0].size()) - 1))
 		{
-			// æ›¸ãè¾¼ã¿
+			// ‘‚«‚İ
 			write << data[row][col] << sep;
 		}
-		// æœ€å¾Œã®åˆ—ã®å‡¦ç†
+		// ÅŒã‚Ì—ñ‚Ìˆ—
 		write << data[row][((data.size()) - 1)] << std::endl;
 	}
 
 	return;
 }
 
-// ãƒ˜ãƒƒãƒ€ãƒ¼ã¨ãƒ‡ãƒ¼ã‚¿
+// ƒwƒbƒ_[‚Æƒf[ƒ^
 template <typename T, typename U>
 void write_csv(v2_T(T) data, std::unordered_map<std::string, ULLI> hearder_name, std::string filename = "a.csv", std::ios_base::openmode mode = std::ios::out, char sep = ',')
 {
-	// ãƒ˜ãƒƒãƒ€ãƒ¼ã®åå‰ã‚’æ ¼ç´ã™ã‚‹ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿
+	// ƒwƒbƒ_[‚Ì–¼‘O‚ğŠi”[‚·‚éƒCƒeƒŒ[ƒ^
 	std::unordered_map<std::string, ULLI>::iterator hearder_iter;
 	hearder_iter = hearder_name.begin();
 
-	// ãƒ•ã‚¡ã‚¤ãƒ«
+	// ƒtƒ@ƒCƒ‹
 	std::ofstream write(filename, mode);
 	ULLI now_cell_num = 0;
 
-	// ãƒ˜ãƒƒãƒ€ãƒ¼ã®åå‰ã‚’æ›¸ãè¾¼ã‚€
+	// ƒwƒbƒ_[‚Ì–¼‘O‚ğ‘‚«‚Ş
 	while (hearder_iter != hearder_name.end())
 	{
-		// æ›¸ãè¾¼ã¿
+		// ‘‚«‚İ
 		write << hearder_iter->first;
 
-		// æœ€å¾Œã®åˆ—ã®å‡¦ç†ãªã©
+		// ÅŒã‚Ì—ñ‚Ìˆ—‚È‚Ç
 		if (now_cell_num == (hearder_name.size() - 1))
 		{
 			write << std::endl;
@@ -677,41 +677,41 @@ void write_csv(v2_T(T) data, std::unordered_map<std::string, ULLI> hearder_name,
 		{
 			write << sep;
 		}
-		// å€¤ã‚’æ›´æ–°
+		// ’l‚ğXV
 		now_cell_num++;
 		hearder_iter++;
 	}
 
-	// ä»¥é™ã¯åŒã˜
+	// ˆÈ~‚Í“¯‚¶
 	write_csv(data, filename, std::ios::ate, sep);
 
 	return;
 }
 
-// ãƒ‡ãƒ¼ã‚¿ã¨è¡Œåã®æ™‚
+// ƒf[ƒ^‚Æs–¼‚Ì
 template <typename T>
 void write_csv(v2_T(T) data, std::unordered_map<std::string, ULLI> row_name, std::string filename = "a.csv", std::ios_base::openmode mode = std::ios::out, char sep = ',')
 {
-	// ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿
+	// ƒCƒeƒŒ[ƒ^
 	std::unordered_map<std::string, ULLI>::iterator row_name_iter;
 	row_name_iter = row_name.begin();
 
-	// å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«ã®å®šç¾©
+	// o—Íƒtƒ@ƒCƒ‹‚Ì’è‹`
 	std::ofstream write(filename, mode);
 	ULLI row, col;
 
 	rep(row, data.size())
 	{
-		// ï¼‘åˆ—ç›®ãŒrow_nameã®æ™‚ã®å‡¦ç†
+		// ‚P—ñ–Ú‚ªrow_name‚Ì‚Ìˆ—
 		write << row_name_iter->first << sep;
 
-		// ãƒ‡ãƒ¼ã‚¿ã®æ›¸ãè¾¼ã¿
+		// ƒf[ƒ^‚Ì‘‚«‚İ
 		rep(col, ((data.size()) - 1))
 		{
-			// å‡ºåŠ›
+			// o—Í
 			write << data[row][col] << sep;
 		}
-		// æœ€å¾Œã®åˆ—ã®å‡¦ç†
+		// ÅŒã‚Ì—ñ‚Ìˆ—
 		write << data[row][((data.size()) - 1)] << std::endl;
 		row_name_iter++;
 	}
@@ -719,25 +719,25 @@ void write_csv(v2_T(T) data, std::unordered_map<std::string, ULLI> row_name, std
 	return;
 }
 
-// ãƒ˜ãƒƒãƒ€ãƒ¼ï¼Œè¡Œåï¼Œãƒ‡ãƒ¼ã‚¿ãŒã‚ã‚‹ã¨ã
+// ƒwƒbƒ_[Cs–¼Cƒf[ƒ^‚ª‚ ‚é‚Æ‚«
 template <typename T>
 void write_csv(v2_T(T) data, std::unordered_map<std::string, ULLI> hearder_name, std::unordered_map<std::string, ULLI> row_name, std::string filename = "a.csv", std::ios_base::openmode mode = std::ios::out, char sep = ',')
 {
-	// ãƒ˜ãƒƒãƒ€ãƒ¼ã®åå‰ã‚’æ ¼ç´ã™ã‚‹ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿
+	// ƒwƒbƒ_[‚Ì–¼‘O‚ğŠi”[‚·‚éƒCƒeƒŒ[ƒ^
 	std::unordered_map<std::string, ULLI>::iterator hearder_iter;
 	hearder_iter = hearder_name.begin();
 
-	// å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«ã®å®šç¾©
+	// o—Íƒtƒ@ƒCƒ‹‚Ì’è‹`
 	std::ofstream write(filename, mode);
 	ULLI now_cell_num = 0;
 
-	// ãƒ˜ãƒƒãƒ€ãƒ¼ã®æ›¸ãè¾¼ã¿
+	// ƒwƒbƒ_[‚Ì‘‚«‚İ
 	while (hearder_iter != hearder_name.end())
 	{
-		// æ›¸ãè¾¼ã¿
+		// ‘‚«‚İ
 		write << hearder_iter->first;
 
-		// æ–‡å­—ã®åˆ¤å®š
+		// •¶š‚Ì”»’è
 		if (now_cell_num == (hearder_name.size() - 1))
 		{
 			write << std::endl;
@@ -746,33 +746,33 @@ void write_csv(v2_T(T) data, std::unordered_map<std::string, ULLI> hearder_name,
 		{
 			write << sep;
 		}
-		// æ›´æ–°
+		// XV
 		now_cell_num++;
 		hearder_iter++;
 	}
 
-	// ãƒ˜ãƒƒãƒ€ãƒ¼ã¯æ›¸ã„ãŸã®ã§ãã‚Œä»¥å¤–ã®å‡¦ç†
+	// ƒwƒbƒ_[‚Í‘‚¢‚½‚Ì‚Å‚»‚êˆÈŠO‚Ìˆ—
 	write_csv(data, row_name, filename, std::ios::ate, sep);
 
 	return;
 }
 
-// ãƒãƒƒãƒ—ã®æ™‚
+// ƒ}ƒbƒv‚Ì
 template <typename T, typename U>
-void write_csv(std::unordered_map<T, U> &ans_map, std::string filename = "a.csv", std::ios_base::openmode mode = std::ios::out, char sep = ',')
+void write_csv(std::unordered_map<T, U>& ans_map, std::string filename = "a.csv", std::ios_base::openmode mode = std::ios::out, char sep = ',')
 {
 
-	// ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›
+	// ƒtƒ@ƒCƒ‹o—Í
 	std::ofstream write(filename, mode);
 	typename std::unordered_map<T, U>::iterator map_iter;
 	map_iter = ans_map.begin();
 
 	while (map_iter != ans_map.end())
 	{
-		// å‡ºåŠ›
+		// o—Í
 		write << map_iter->first << sep << map_iter->second << std::endl;
 
-		// æ›´æ–°
+		// XV
 		map_iter++;
 	}
 
@@ -783,7 +783,7 @@ template <typename T, typename U>
 void write_csv(std::unordered_map<T, std::vector<U>> ans_map, std::string filename = "a.csv", std::ios_base::openmode mode = std::ios::out, char sep = ',')
 {
 
-	// ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›
+	// ƒtƒ@ƒCƒ‹o—Í
 	std::ofstream write(filename, mode);
 
 	typename std::unordered_map<T, std::vector<U>>::iterator map_iter;
@@ -794,34 +794,34 @@ void write_csv(std::unordered_map<T, std::vector<U>> ans_map, std::string filena
 	while (map_iter != ans_map.end())
 	{
 		// debug(map_iter->first)
-		// å‡ºåŠ›
+		// o—Í
 		vec_iter = map_iter->second.begin();
 
 		write << map_iter->first;
 
 		while (vec_iter != map_iter->second.end())
 		{
-			// å‡ºåŠ›
+			// o—Í
 			write << sep << *vec_iter;
 
-			// æ›´æ–°
+			// XV
 			vec_iter++;
 		}
 
 		write << std::endl;
-		// æ›´æ–°
+		// XV
 		map_iter++;
 	}
 
 	return;
 }
 
-// ãƒ•ã‚¡ã‚¦ãƒ«å‡ºåŠ›ã€€ãƒ™ã‚¯ãƒˆãƒ«
+// ƒtƒ@ƒEƒ‹o—Í@ƒxƒNƒgƒ‹
 template <typename T>
-void write_csv(std::vector<T> &data, std::string filename = "a.csv", std::ios_base::openmode mode = std::ios::out, char sep = ',')
+void write_csv(std::vector<T>& data, std::string filename = "a.csv", std::ios_base::openmode mode = std::ios::out, char sep = ',')
 {
 
-	// ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›
+	// ƒtƒ@ƒCƒ‹o—Í
 	std::ofstream write(filename, mode);
 
 	typename std::vector<T>::iterator vec_iter;
@@ -840,10 +840,10 @@ void write_csv(std::vector<T> &data, std::string filename = "a.csv", std::ios_ba
 	return;
 }
 
-// æ›œæ—¥ã®è¨ˆç®—ï¼ˆãƒ„ã‚§ãƒ©ãƒ¼ã®å…¬å¼ï¼‰
-int day_of_the_week(int year = 0000, int month = 1, int day = 1)
+// —j“ú‚ÌŒvZiƒcƒFƒ‰[‚ÌŒö®j
+int day_of_the_week(int year = 2000, int month = 1, int day = 1)
 {
-	// 1æœˆã¨2æœˆã¯å‰å¹´ã®13æœˆã¨14æœˆã¨ã—ã¦è¨ˆç®—ã™ã‚‹
+	// 1Œ‚Æ2Œ‚Í‘O”N‚Ì13Œ‚Æ14Œ‚Æ‚µ‚ÄŒvZ‚·‚é
 	if (month == 1 || month == 2)
 	{
 		year--;
@@ -852,7 +852,7 @@ int day_of_the_week(int year = 0000, int month = 1, int day = 1)
 	return (year + year / 4 - year / 100 + year / 400 + (13 * month + 8) / 5 + day) % 7;
 }
 
-// ã†ã‚‹ã†å¹´åˆ¤å®š
+// ‚¤‚é‚¤”N”»’è
 bool is_leap_year(int year)
 {
 	if (year % 400 == 0)
@@ -873,51 +873,63 @@ bool is_leap_year(int year)
 	}
 }
 
-// yyyy/mm/ddã®Aæ—¥ã‹ã‚‰Bæ—¥ã¾ã§æ—¥ä»˜ã‚’ãƒãƒƒãƒ—ã¨ã—ã¦è¿”ã™
-// Aæ—¥ã‹ã‚‰Bæ—¥ã¾ã§ã®çµŒéæ—¥æ•°ã‚’è¨ˆç®—ã™ã‚‹
+// yyyy/mm/dd‚ÌA“ú‚©‚çB“ú‚Ü‚Å“ú•t‚ğƒ}ƒbƒv‚Æ‚µ‚Ä•Ô‚·
+// A“ú‚©‚çB“ú‚Ü‚Å‚ÌŒo‰ß“ú”‚ğŒvZ‚·‚é
 std::unordered_map<std::string, ULLI> day_map_age(int start_year, int start_month, int start_day, int end_year, int end_month, int end_day, char sep = '/')
 {
 
-	// ç­”ãˆã®å®šç¾©
+	// “š‚¦‚Ì’è‹`
 	std::unordered_map<std::string, ULLI> day_map;
 
-	int now_year, now_month, now_day, long_days;
+	int now_year, now_month, now_day;
+	ULLI long_days;
 	long_days = 0;
 
-	// å¹´ã®ãƒ«ãƒ¼ãƒ—
+	// ”N‚Ìƒ‹[ƒv
 	for (now_year = start_year; now_year <= end_year; ++now_year)
 	{
 
-		// çµ‚äº†ã™ã‚‹æ›œæ—¥ã®å®šç¾©
+		// I—¹‚·‚é—j“ú‚Ì’è‹`
 		int month_limit;
+		int month_strart_limit = 1;
+		if (now_year == start_year) {
+			month_strart_limit = start_month;
+		}
+
 		if (now_year < end_year)
 		{
 
-			// åŸºæœ¬çš„ã«ã¯å¹´æœ«ã¾ã§
+			// Šî–{“I‚É‚Í”N––‚Ü‚Å
 			month_limit = 12;
 		}
 		else
 		{
 
-			// æœ€çµ‚å¹´ã®ã¿æœˆãŒçµ‚ã‚ã‚‹æ—¥ãŒç•°ãªã‚‹
+			// ÅI”N‚Ì‚İŒ‚ªI‚í‚é“ú‚ªˆÙ‚È‚é
 			month_limit = end_month;
 		}
 
-		// æœˆã®ãƒ«ãƒ¼ãƒ—
-		for (now_month = 1; now_month <= month_limit; ++now_month)
+		// Œ‚Ìƒ‹[ƒv
+		for (now_month = month_strart_limit; now_month <= month_limit; ++now_month)
 		{
 
-			// æœ€çµ‚ã®æ—¥ä»˜ã®åˆ¤å®š
+			// ÅI‚Ì“ú•t‚Ì”»’è
 			int day_limit;
-			if (now_year < end_year || now_month < end_month)
+			int day_start_limit = 1;
+
+			if ((now_year == start_year) && (now_month == month_strart_limit)) {
+				day_start_limit = start_day;
+			}
+
+			if ((now_year < end_year) || (now_month < end_month))
 			{
 
-				// æœ€çµ‚æ—¥ã®åˆ¤å®š
-				// ã†ã‚‹ã†å¹´åˆ¤å®š
+				// ÅI“ú‚Ì”»’è
+				// ‚¤‚é‚¤”N”»’è
 				if (now_month == 2)
 				{
 
-					// ã†ã‚‹ã†å¹´åˆ¤å®šã¯ä¸Šã®å¼
+					// ‚¤‚é‚¤”N”»’è‚Íã‚Ì®
 					if (is_leap_year(now_year))
 					{
 						day_limit = 29;
@@ -927,7 +939,7 @@ std::unordered_map<std::string, ULLI> day_map_age(int start_year, int start_mont
 						day_limit = 28;
 					}
 				}
-				// 30æ—¥ã®æœˆã®ã¿æŠ½å‡º
+				// 30“ú‚ÌŒ‚Ì‚İ’Šo
 				else if (now_month == 4 || now_month == 6 || now_month == 9 || now_month == 11)
 				{
 					day_limit = 30;
@@ -939,12 +951,12 @@ std::unordered_map<std::string, ULLI> day_map_age(int start_year, int start_mont
 			}
 			else
 			{
-				// æœ€çµ‚å¹´ã‹ã¤æœ€çµ‚æ—¥ã®ã¿ç•°ãªã‚‹
+				// ÅI”N‚©‚ÂÅI“ú‚Ì‚İˆÙ‚È‚é
 				day_limit = end_day;
 			}
 
-			// æ—¥ä»˜ã®ãƒ«ãƒ¼ãƒ—
-			for (now_day = 1; now_day <= day_limit; ++now_day)
+			// “ú•t‚Ìƒ‹[ƒv
+			for (now_day = day_start_limit; now_day <= day_limit; ++now_day)
 			{
 				// create the date string in format yyyy/mm/dd
 				std::ostringstream string_year, string_month, string_day;
@@ -952,7 +964,6 @@ std::unordered_map<std::string, ULLI> day_map_age(int start_year, int start_mont
 				string_year << std::setfill('0') << std::setw(4) << now_year;
 				string_month << std::setfill('0') << std::setw(2) << now_month;
 				string_day << std::setfill('0') << std::setw(2) << now_day;
-
 
 				std::string date = string_year.str() + sep + string_month.str() + sep + string_day.str();
 				// increment long_days and add to map
@@ -962,13 +973,13 @@ std::unordered_map<std::string, ULLI> day_map_age(int start_year, int start_mont
 		}
 	}
 
-	// ç­”ãˆã‚’è¿”ã™
+	// “š‚¦‚ğ•Ô‚·
 	return day_map;
 }
 
-//(T) year, (T) month, (T) dayã‚’ yyyy/mm/dd ã®å½¢å¼ã«å¤‰æ›ã™ã‚‹
+//(T) year, (T) month, (T) day‚ğ yyyy/mm/dd ‚ÌŒ`®‚É•ÏŠ·‚·‚é
 template <typename T>
-std::string T_to_date_trans_func(T &year, T &month, T &day, char sep = '/')
+std::string T_to_date_trans_func(T& year, T& month, T& day, char sep = '/')
 {
 	std::string ans;
 	ans = std::to_string(year) + sep + std::to_string(month) + sep + std::to_string(day);
@@ -976,7 +987,7 @@ std::string T_to_date_trans_func(T &year, T &month, T &day, char sep = '/')
 	return ans;
 }
 
-// yyyy/mm/dd ã®å½¢å¼ã‚’ (int) year, (int) month, (int) day ã«å¤‰æ›ã™ã‚‹
+// yyyy/mm/dd ‚ÌŒ`®‚ğ (int) year, (int) month, (int) day ‚É•ÏŠ·‚·‚é
 class date_to_int
 {
 public:
@@ -996,10 +1007,10 @@ date_to_int::date_to_int()
 
 void date_to_int::function(std::string date_s, char sep)
 {
-	// æ—¥ä»˜ã®åˆ†å‰²
-	std::vector<std::string> date_split = split(date_s, '/');
+	// “ú•t‚Ì•ªŠ„
+	std::vector<std::string> date_split = split(date_s, sep);
 
-	// æ—¥ä»˜ã®å¤‰æ›
+	// “ú•t‚Ì•ÏŠ·
 	year = std::stoi(date_split[0]);
 	month = std::stoi(date_split[1]);
 	day = std::stoi(date_split[2]);
@@ -1007,28 +1018,28 @@ void date_to_int::function(std::string date_s, char sep)
 	return;
 }
 
-// ã‚¹ãƒ¯ãƒƒãƒ—
+// ƒXƒƒbƒv
 template <typename T>
-void swap(T &a, T &b)
-{ // è¿”ã‚Šå€¤ãŒãªã„ã‹ã‚‰ãƒã‚¤ãƒ³ã‚¿ãƒ¼ãªã©ã§ã™ã‚‹å¿…è¦ãŒã‚ã‚‹
-	// ä¸€æ™‚å¤‰æ•°
+void swap(T& a, T& b)
+{ // •Ô‚è’l‚ª‚È‚¢‚©‚çƒ|ƒCƒ“ƒ^[‚È‚Ç‚Å‚·‚é•K—v‚ª‚ ‚é
+	// ˆê•Ï”
 	T temp = a;
 
-	// å…¥ã‚Œæ›¿ãˆ
+	// “ü‚ê‘Ö‚¦
 	a = b;
 	b = temp;
 	return;
 }
 
-// å°ã•ã„ãƒ‡ãƒ¼ã‚¿ã®æ¯”è¼ƒ
+// ¬‚³‚¢ƒf[ƒ^‚Ì”äŠr
 template <typename T>
-bool data_comparison(T &data_x, T &data_y)
+bool data_comparison(T& data_x, T& data_y)
 {
 
-	// è¨ˆç®—æ©Ÿã‚¤ãƒ—ã‚·ãƒ­ãƒ³ã®å®šç¾©
+	// ŒvZ‹@ƒCƒvƒVƒƒ“‚Ì’è‹`
 	LLD data_eps = std::numeric_limits<T>::epsilon();
 
-	// 2ã¤ã®ãƒ‡ãƒ¼ã‚¿ã®å·®ãŒepsä»¥ä¸‹ãªã‚‰ã°trueã‚’è¿”ã™
+	// 2‚Â‚Ìƒf[ƒ^‚Ì·‚ªepsˆÈ‰º‚È‚ç‚Îtrue‚ğ•Ô‚·
 	if (std::abs(data_x - data_y) < data_eps)
 	{
 		return true;
@@ -1039,7 +1050,7 @@ bool data_comparison(T &data_x, T &data_y)
 	}
 }
 
-// ãƒ‡ãƒ¼ã‚¿ã®åŸºæœ¬çµ±è¨ˆé‡ã‚’ç®—å‡º
+// ƒf[ƒ^‚ÌŠî–{“Œv—Ê‚ğZo
 template <typename T>
 class data_statistics
 {
@@ -1050,7 +1061,7 @@ private:
 
 public:
 	data_statistics();
-	void setter(v_T(T) & data);
+	void setter(v_T(T)& data);
 	LLD get_max();
 	LLD get_min();
 	LLD get_mean();
@@ -1079,9 +1090,9 @@ data_statistics<T>::data_statistics()
 }
 
 template <typename T>
-void data_statistics<T>::setter(v_T(T) & data)
+void data_statistics<T>::setter(v_T(T)& data)
 {
-	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®ä¸­èº«
+	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ì’†g
 	function(data);
 };
 
@@ -1093,30 +1104,30 @@ void data_statistics<T>::function(v_T(T) data)
 	min_value = std::min_element(v_all(data));
 	this->mean_value = sum_value / data.size();
 
-	// åˆ†æ•£ã®è¨ˆç®—
-	//  æœ€åˆ1ã€€æœ€å¾Œ1ã€€æœ€åˆ2ã€€åˆæœŸå€¤
+	// •ªU‚ÌŒvZ
+	//  Å‰1@ÅŒã1@Å‰2@‰Šú’l
 	auto variance_func1 = [this](LLD acc, LLD a)
-	{
-		return (acc + std::pow(a - this->mean_value, 2));
-	};
+		{
+			return (acc + std::pow(a - this->mean_value, 2));
+		};
 
 	variance_value = std::accumulate(data.begin(), data.end(), 0.0, variance_func1) / data.size();
 
-	// æ¨™æº–åå·®ã®è¨ˆç®—
+	// •W€•Î·‚ÌŒvZ
 	sd_value = std::sqrt(variance_value);
 
-	// ä¸­å¤®å€¤
-	std::sort(data); // ã‚½ãƒ¼ãƒˆã‚’ã™ã‚‹
+	// ’†‰›’l
+	std::sort(data); // ƒ\[ƒg‚ğ‚·‚é
 	median_value = ((data.size() % 2 == 0) ? (data[data.size() / 2 - 1] + data[data.size() / 2]) / 2 : data[data.size() / 2]);
 
-	// æœ€é »å€¤
+	// Å•p’l
 	for (auto itr = data.begin(); itr != data.end(); ++itr)
 	{
 		data_map[*itr]++;
 	}
 
 	// Find the mode by looping through the map
-	for (const auto &kv : data_map)
+	for (const auto& kv : data_map)
 	{
 		if (kv.second > max_count)
 		{
@@ -1128,7 +1139,7 @@ void data_statistics<T>::function(v_T(T) data)
 	return;
 };
 
-// å‡ºåŠ›
+// o—Í
 template <typename T>
 LLD data_statistics<T>::get_max()
 {
@@ -1170,7 +1181,7 @@ LLD data_statistics<T>::get_sum()
 	return sum_value;
 };
 
-// ãƒ‡ãƒ¼ã‚¿ã®åŸºæœ¬çµ±è¨ˆé‡ã‚’ç®—å‡ºï¼ˆè¡Œåˆ—ç”¨ï¼‰
+// ƒf[ƒ^‚ÌŠî–{“Œv—Ê‚ğZois—ñ—pj
 template <typename T>
 class data_statistics_vector : protected data_statistics<std::vector<T>>
 {
@@ -1214,22 +1225,22 @@ template <typename T>
 void data_statistics_vector<T>::setter(v2_T(T) datas)
 {
 
-	// åˆ—æ•°ã‚’å–å¾—
+	// —ñ”‚ğæ“¾
 
 	rep(now_temp, datas[0].size())
 	{
 		now_data.resize(datas.size());
 
-		// åˆ†æãƒ‡ãƒ¼ã‚¿ã®ã¿å–å¾—ã€€åˆ—å›ºå®š
+		// •ªÍƒf[ƒ^‚Ì‚İæ“¾@—ñŒÅ’è
 		rep(now_col, datas.size())
 		{
 			now_data[now_col] = datas[now_col][now_temp];
 		}
 
-		// ãƒ‡ãƒ¼ã‚¿ã®åŸºæœ¬çµ±è¨ˆé‡ã‚’ç®—å‡º
+		// ƒf[ƒ^‚ÌŠî–{“Œv—Ê‚ğZo
 		data_statistics<T>::function(now_data);
 
-		// ç­”ãˆã‚’æ ¼ç´
+		// “š‚¦‚ğŠi”[
 		max_vector.push_back(data_statistics<T>::max_value);
 		min_vector.push_back(data_statistics<T>::min_value);
 		mean_vector.push_back(data_statistics<T>::mean_value);
@@ -1243,7 +1254,7 @@ void data_statistics_vector<T>::setter(v2_T(T) datas)
 	return;
 }
 
-// å‡ºåŠ›
+// o—Í
 template <typename T>
 v_T(LLD) data_statistics_vector<T>::get_max()
 {
@@ -1285,18 +1296,18 @@ v_T(LLD) data_statistics_vector<T>::get_sum()
 	return sum_vector;
 };
 
-// ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã«ã‚«ãƒ³ãƒã‚’å…¥ã‚Œã‚‹
+// ƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚ÉƒJƒ“ƒ}‚ğ“ü‚ê‚é
 template<typename T>
 void text_comma(T filename = "a.txt", T byte_file = "byte.csv", T output_file = "a.csv")
 {
-	std::cout << "byteãªã©ãŒæ›¸ã‹ã‚ŒãŸcsv ã¯ï¼Œã€€é …ç›®,æ–‡å­—æ•°, ãƒã‚¤ãƒˆæ•°ã€€ã§è¨˜å…¥ã—ã¦\n";
+	std::cout << "byte‚È‚Ç‚ª‘‚©‚ê‚½csv ‚ÍC@€–Ú,•¶š”, ƒoƒCƒg”@‚Å‹L“ü‚µ‚Ä\n";
 	v2_T(std::string) byte_data;
 
-	// csvèª­ã¿è¾¼ã‚€ç”¨
+	// csv“Ç‚İ‚Ş—p
 	class read_csv read_csv1;
 	read_csv1.setter(byte_file, true, ',', 1);
 
-	// ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã¿
+	// ƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İ
 	std::ifstream read_txt(filename, std::ios::in);
 
 	if (!read_txt.is_open())
@@ -1305,10 +1316,10 @@ void text_comma(T filename = "a.txt", T byte_file = "byte.csv", T output_file = 
 		return;
 	}
 
-	// å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«ã®å®šç¾©
+	// o—Íƒtƒ@ƒCƒ‹‚Ì’è‹`
 	std::ofstream write_csv(output_file, std::ios::out);
 
-	// ä»®å¤‰æ•°
+	// ‰¼•Ï”
 	std::string temp_line;
 	std::string temp_ans;
 	ULLI csv_length;
@@ -1320,11 +1331,11 @@ void text_comma(T filename = "a.txt", T byte_file = "byte.csv", T output_file = 
 		temp_ans = "";
 		rep(csv_length, data.size())
 		{
-			// æ–‡å­—ã®æ“ä½œ
-			// substrã€€ï¼ˆé–‹å§‹ä½ç½®-1ï¼ˆ0ã‚¹ã‚¿ãƒ¼ãƒˆï¼‰ï¼Œæ–‡å­—æ•°ï¼‰
+			// •¶š‚Ì‘€ì
+			// substr@iŠJnˆÊ’u-1i0ƒXƒ^[ƒgjC•¶š”j
 			temp_ans += temp_line.substr(std::stoull(data[csv_length][0]) - 1, std::stoull(data[csv_length][1])) + ",";
 		}
-		// ã‚«ãƒ³ãƒãŒ1ã¤å¤šã„ã®ã§å‰Šé™¤
+		// ƒJƒ“ƒ}‚ª1‚Â‘½‚¢‚Ì‚Åíœ
 		temp_ans.pop_back();
 		write_csv << temp_ans << "\n";
 	}
@@ -1332,10 +1343,10 @@ void text_comma(T filename = "a.txt", T byte_file = "byte.csv", T output_file = 
 	return;
 }
 
-// æ—¥ä»˜ã®å‹ã‚’ãã‚ãˆã‚‹
-template<typename T>T remove_zero_form_date(T &date, char sep = '/')
+// “ú•t‚ÌŒ^‚ğ‚»‚ë‚¦‚é
+template<typename T>T remove_zero_form_date(T& date, char sep = '/')
 {
-	// æ—¥ä»˜ã®å…±é€šåŒ–
+	// “ú•t‚Ì‹¤’Ê‰»
 	typename std::vector<T> date_int = split(date, sep);
 	int now_y = std::stoi(date_int[0]);
 	int now_m = std::stoi(date_int[1]);
@@ -1344,9 +1355,9 @@ template<typename T>T remove_zero_form_date(T &date, char sep = '/')
 	return now_date;
 }
 
-// äºŒåˆ†æœ¨æ¢ç´¢
+// “ñ•ª–Ø’Tõ
 template <typename T, typename Fn>
-T binary_search_tree(T &data_a, T &data_b, Fn &func)
+T binary_search_tree(T& data_a, T& data_b, Fn& func)
 {
 
 	T mean = (data_a + data_b) / 2.0;
@@ -1373,9 +1384,9 @@ T binary_search_tree(T &data_a, T &data_b, Fn &func)
 	return ans;
 }
 
-// äºŒåˆ†æœ¨æ¢ç´¢(é…åˆ—)
+// “ñ•ª–Ø’Tõ(”z—ñ)
 template <typename T, typename U, typename Fn>
-U binary_search_tree(std::vector<T> &data_v, U data_a, U data_b, Fn &func)
+U binary_search_tree(std::vector<T>& data_v, U data_a, U data_b, Fn& func)
 {
 
 	U ans;
@@ -1410,21 +1421,21 @@ U binary_search_tree(std::vector<T> &data_v, U data_a, U data_b, Fn &func)
 template <typename T>
 T log_sum_exp(std::vector<T> data)
 {
-	// æœ€å¤§å€¤ã‚’å–å¾—
+	// Å‘å’l‚ğæ“¾
 	T max_value = *std::max_element(data.begin(), data.end());
 	T sum = 0;
 
-	// æœ€å¤§å€¤ã‚’å¼•ã„ã¦ï¼Œexpã‚’ã¨ã‚‹
+	// Å‘å’l‚ğˆø‚¢‚ÄCexp‚ğ‚Æ‚é
 	for (T value : data)
 	{
 		sum += std::exp(value - max_value);
 	}
 
-	// logã‚’ã¨ã‚‹
+	// log‚ğ‚Æ‚é
 	return max_value + std::log(sum);
 }
 
-// å…¨ã¦è¶³ã™
+// ‘S‚Ä‘«‚·
 template <typename T>
 T sum(std::vector<T> data)
 {
@@ -1447,7 +1458,7 @@ T fast_sum(std::vector<T> data)
 	return ans;
 }
 
-// å…¨ã¦ã‹ã‘ã‚‹
+// ‘S‚Ä‚©‚¯‚é
 template <typename T>
 T product(std::vector<T> data)
 {
@@ -1465,7 +1476,7 @@ T fast_product(std::vector<T> data)
 	return ans;
 }
 
-// ãƒ‡ãƒ¼ã‚¿ã®æ¡ä»¶æŠ½å‡º
+// ƒf[ƒ^‚ÌğŒ’Šo
 template <typename T>
 std::vector<T> condition_extraction(std::vector<T> data, T conditions)
 {
@@ -1482,7 +1493,7 @@ std::vector<T> condition_extraction(std::vector<T> data, T conditions)
 	return ans;
 }
 
-// ãƒ‡ãƒ¼ã‚¿ã®æ¡ä»¶æŠ½å‡º é…åˆ—
+// ƒf[ƒ^‚ÌğŒ’Šo ”z—ñ
 template <typename T>
 std::vector<T> condition_extraction(std::vector<T> data, std::vector<T> conditions)
 {
@@ -1492,8 +1503,8 @@ std::vector<T> condition_extraction(std::vector<T> data, std::vector<T> conditio
 
 	if (conditions.size() == 0)
 	{
-		std::cout << "æ¡ä»¶ã®æ•°ãŒ0ã§ã™\n"
-				  << std::endl;
+		std::cout << "ğŒ‚Ì”‚ª0‚Å‚·\n"
+			<< std::endl;
 		exit(-1097);
 	}
 
@@ -1510,46 +1521,46 @@ std::vector<T> condition_extraction(std::vector<T> data, std::vector<T> conditio
 	return ans;
 }
 
-// ãƒ‡ãƒ¼ã‚¿ã®æ¡ä»¶æŠ½å‡º
+// ƒf[ƒ^‚ÌğŒ’Šo
 template <typename T, typename... Args>
 std::vector<T> condition_extraction(std::vector<T> data, Args... args)
 {
 	typename std::vector<T> ans;
-	typename std::vector<T> conditions = {args...};
+	typename std::vector<T> conditions = { args... };
 
 	ans = condition_extraction(data, conditions);
 
 	return ans;
 }
 
-// å¤šæ¬¡å…ƒ
+// ‘½ŸŒ³
 template <typename T, typename... Args>
 std::vector<std::vector<T>> condition_extraction(std::vector<std::vector<T>> data, Args... args)
 {
 	std::tuple<Args...> conditions = std::make_tuple(args...);
 	std::vector<std::vector<T>> result;
 
-	for (const auto &row : data)
+	for (const auto& row : data)
 	{
 		bool satisfiesConditions = true;
 
-		// ã‚‚ã¨ã®å½¢
+		// ‚à‚Æ‚ÌŒ`
 		//   std::make_tuple([](const std::string& s) { return s == "A" || s == "B"; }, 2),
 
-		// std::applyã‚’ä½¿ç”¨ã—ã¦ã€å„ã‚¿ãƒ—ãƒ«ã®è¦ç´ ã«å¯¾ã—ã¦ãƒ©ãƒ ãƒ€ã‚’é©ç”¨
+		// std::apply‚ğg—p‚µ‚ÄAŠeƒ^ƒvƒ‹‚Ì—v‘f‚É‘Î‚µ‚Äƒ‰ƒ€ƒ_‚ğ“K—p
 		std::apply([&](auto &&...condition)
-				   {
-			// å„æ¡ä»¶ã¨å¯¾å¿œã™ã‚‹åˆ—ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å±•é–‹
+			{
+				// ŠeğŒ‚Æ‘Î‰‚·‚é—ñ‚ÌƒCƒ“ƒfƒbƒNƒX‚ğ“WŠJ
 
-			//get<0>ã¯æ¡ä»¶å¼
-			//get<1> ã¯å¯¾è±¡ã®ã‚»ãƒ«
-			//row [get<1>]ã§ã‚¢ã‚¯ã‚»ã‚¹ã€€const std::string& s
-			//ï¼ˆï¼‰ã®éƒ¨åˆ†ã§ãƒ©ãƒ ãƒ€å¼ã®å¼•æ•°ã‚’æŒ‡å®š
+				//get<0>‚ÍğŒ®
+				//get<1> ‚Í‘ÎÛ‚ÌƒZƒ‹
+				//row [get<1>]‚ÅƒAƒNƒZƒX@const std::string& s
+				//ij‚Ì•”•ª‚Åƒ‰ƒ€ƒ_®‚Ìˆø”‚ğw’è
 
-			//Tureï¼†ï¼†ï¼ˆåˆ¤å®šï¼‰ ã©ã¡ã‚‰ã‚‚ture ã®æ™‚ã®ã¿Tureã‚’è¿”ã™
+				//Ture••i”»’èj ‚Ç‚¿‚ç‚àture ‚Ì‚Ì‚İTure‚ğ•Ô‚·
 
-			((satisfiesConditions = satisfiesConditions && std::get<0>(condition)(row[std::get<1>(condition)])), ...); },
-				   conditions); // 2ã¤ã‚ã€€ã‚»ãƒ«ã‚’è¿”ã™
+				((satisfiesConditions = satisfiesConditions && std::get<0>(condition)(row[std::get<1>(condition)])), ...); },
+				conditions); // 2‚Â‚ß@ƒZƒ‹‚ğ•Ô‚·
 
 		if (satisfiesConditions)
 		{
@@ -1560,44 +1571,46 @@ std::vector<std::vector<T>> condition_extraction(std::vector<std::vector<T>> dat
 	return result;
 }
 
-// ï¼‘è¡Œã”ã¨ã«åˆ¤å®š
+// ‚Ps‚²‚Æ‚É”»’è
 template <typename... Args>
 bool condition_extraction(std::string data, char sep, Args... args)
 {
 	std::vector<std::string> temp_data = split(data, sep);
 	std::tuple<Args...> conditions = std::make_tuple(args...);
 
-	// åˆ¤å®š
+	// ”»’è
 	bool satisfiesConditions = true;
 
-	// é–¢æ•°ã€€å¼•æ•°ï¼ˆã‚¿ãƒ—ãƒ«å‹ï¼‰
+	// ŠÖ”@ˆø”iƒ^ƒvƒ‹Œ^j
 	std::apply([&](auto &&...condition)
-			   { ((satisfiesConditions = satisfiesConditions && std::get<0>(condition)(temp_data[std::get<1>(condition)])), ...); },
-			   conditions);
+		{ ((satisfiesConditions = satisfiesConditions && std::get<0>(condition)(temp_data[std::get<1>(condition)])), ...); },
+		conditions);
 
 	return satisfiesConditions;
 }
+// o—Í
+// ƒx[ƒXƒP[ƒX
+void print() {}
 
-// å‡ºåŠ›
-// 0ã®æ™‚
-template <typename T>
-void print()
-{
-	std::cout << std::endl;
-};
-// 1ã¤ä»¥ä¸Šã®æ™‚
-template <typename T, typename... Args>
-void print(T &output, Args... args)
-{
-	std::cout << output << " ";
-	print(args...);
-
-	return;
+// Ä‹A“I‚Èƒeƒ“ƒvƒŒ[ƒgŠÖ”
+template<typename T, typename... Args>
+void print(T head, Args... tail) {
+	std::cout << head << " ";
+	print(tail...);
 }
 
-// é€£ç«‹æ–¹ç¨‹å¼ã‚’è§£ã
+// std::vector‚Ì“Áê‰»
+template<typename T, typename... Args>
+void print(std::vector<T> vec, Args... tail) {
+	for (const auto& item : vec) {
+		std::cout << item << " ";
+	}
+	print(tail...);
+}
+
+// ˜A—§•û’ö®‚ğ‰ğ‚­
 template <typename T>
-std::vector<T> simultaneous_equation(std::vector<std::vector<T>> &data, std::vector<T> &data_ans)
+std::vector<T> simultaneous_equation(std::vector<std::vector<T>>& data, std::vector<T>& data_ans)
 {
 	if (data.size() != data_ans.size())
 	{
@@ -1605,19 +1618,19 @@ std::vector<T> simultaneous_equation(std::vector<std::vector<T>> &data, std::vec
 		exit(-1593);
 	}
 
-	// è¡Œåˆ—ã®è¨˜å…¥
+	// s—ñ‚Ì‹L“ü
 	typename std::vector<std::vector<T>> matrix_data = data;
 	typename std::vector<T> ans = data_ans;
 
-	// è¨ˆç®—æ©Ÿã‚¤ãƒ—ã‚·ãƒ­ãƒ³ã®å®šç¾©
+	// ŒvZ‹@ƒCƒvƒVƒƒ“‚Ì’è‹`
 	LLD data_eps = std::numeric_limits<T>::epsilon();
 	unsigned long long int temp_i, temp_j;
 
-	// å…¨ä½“
+	// ‘S‘Ì
 	for (unsigned long long int temp_now = 0; temp_now < matrix_data.size(); temp_now++)
 	{
 
-		// 0ã®æ™‚ã¯åˆ¥
+		// 0‚Ì‚Í•Ê
 		if (abs(matrix_data[temp_now][temp_now]) <= data_eps)
 		{
 			for (temp_i = temp_now; temp_i < matrix_data.size(); temp_i++)
@@ -1628,20 +1641,20 @@ std::vector<T> simultaneous_equation(std::vector<std::vector<T>> &data, std::vec
 					for (temp_j = 0; temp_j < matrix_data.size(); temp_j++)
 					{
 
-						// è¡Œã®å…¥ã‚Œæ›¿ãˆ
+						// s‚Ì“ü‚ê‘Ö‚¦
 						swap(matrix_data[temp_now][temp_j], matrix_data[temp_i][temp_j]);
 					}
 
-					// ç­”ãˆã‚‚ã„ã‚Œã‹ãˆ
+					// “š‚¦‚à‚¢‚ê‚©‚¦
 					swap(ans[temp_now], ans[temp_i]);
 					break;
 				}
 			}
 		}
 
-		// è¨ˆç®—
-		// 1è¡Œç›®ã‚’1ã«ã™ã‚‹
-		// ä»®å¤‰æ•°
+		// ŒvZ
+		// 1s–Ú‚ğ1‚É‚·‚é
+		// ‰¼•Ï”
 		long double temp_now_data;
 
 		temp_now_data = matrix_data[temp_now][temp_now];
@@ -1651,20 +1664,20 @@ std::vector<T> simultaneous_equation(std::vector<std::vector<T>> &data, std::vec
 		}
 		ans[temp_now] /= temp_now_data;
 
-		// 2è¡Œç›®ç§»è¡Œã®è¨ˆç®—
+		// 2s–ÚˆÚs‚ÌŒvZ
 		for (temp_i = 0; temp_i < matrix_data.size(); temp_i++)
 		{
 			if (temp_i != temp_now)
 			{
-				// 2åˆ—ç›®ï¼ˆå®šæ•°å€ã®å®šç¾©ï¼‰
+				// 2—ñ–Úi’è””{‚Ì’è‹`j
 				temp_now_data = matrix_data[temp_i][temp_now];
 				for (temp_j = 0; temp_j < matrix_data[0].size(); temp_j++)
 				{
 
-					// å®šæ•°å€ Ã—ã€€å€¤ã€€
+					// ’è””{ ~@’l@
 					matrix_data[temp_i][temp_j] -= temp_now_data * matrix_data[temp_now][temp_j];
 				}
-				// ç­”ãˆ
+				// “š‚¦
 				ans[temp_i] -= temp_now_data * ans[temp_now];
 			}
 		}
@@ -1673,12 +1686,12 @@ std::vector<T> simultaneous_equation(std::vector<std::vector<T>> &data, std::vec
 	return ans;
 }
 
-// å›ºæœ‰å€¤ã‚’æ±‚ã‚ã‚‹2Ã—2
+// ŒÅ—L’l‚ğ‹‚ß‚é2~2
 template <typename T>
-T det_func2(std::vector<std::vector<T>> &data)
+T det_func2(std::vector<std::vector<T>>& data)
 {
 
-	// åˆ¤å®š
+	// ”»’è
 	if (data.size() != 2)
 	{
 		std::cout << "error" << std::endl;
@@ -1698,9 +1711,9 @@ T det_func2(std::vector<std::vector<T>> &data)
 	return ans;
 }
 
-// å›ºæœ‰å€¤ã‚’æ±‚ã‚ã‚‹
+// ŒÅ—L’l‚ğ‹‚ß‚é
 template <typename T>
-T det_func(std::vector<std::vector<T>> &data)
+T det_func(std::vector<std::vector<T>>& data)
 {
 	T ans = 0;
 	unsigned long long int temp_i, temp_j, temp;
@@ -1713,17 +1726,17 @@ T det_func(std::vector<std::vector<T>> &data)
 	else
 	{
 
-		// åˆ¤å®š
+		// ”»’è
 		for (temp = 0; temp < data.size(); temp++)
 		{
 			typename std::vector<std::vector<T>> data_next;
 
-			// ä½™å› å­
+			// —]ˆöq
 			for (temp_i = 1; temp_i < data.size(); temp_i++)
 			{
 
 				typename std::vector<T> data_next_temp;
-				// è¡Œ
+				// s
 				for (temp_j = 0; temp_j < data.size(); temp_j++)
 				{
 
